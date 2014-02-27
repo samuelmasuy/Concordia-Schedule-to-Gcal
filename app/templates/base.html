@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>Samuel's page.</title>
+    {% endif %}
+    <link href="./static/css/index.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./static/img/favicon.ico">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        Samuel Masuy
+      </header>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('schedule_index') }}">Schedule App</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="body">
+        {% block content %}{% endblock %}
+      </div>
+      <footer>
+        <p>© Copyright 2014 Samuel Masuy.</p>
+        <p>
+        Content licensed under the Creative Commons License.
+        </p>
+        <p>
+        Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
+        <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

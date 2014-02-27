@@ -1,0 +1,24 @@
+<div id="contact-area">
+    {% if isAnonymous %}
+        <a href="{{ url_for('login') }}">Please Sign-in into google.</a>
+    {% else %}
+        <a href="{{ url_for('logout') }}">Log out of Google.</a>
+    {% endif %}
+    <form action="" method="post" name="url">
+        {{form.hidden_tag()}}
+        <label for="URL">Url of your schedule:</label>
+        {{ form.url(size = 100, maxlength = 240) }}<br /><br />
+        <label for="newCal">Create a new secondary calendar:</label>
+        {{ form.new_cal() }}<br /><br />
+        <input type="submit" value="Submit" class="submit-button" />
+    </form>
+</div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes style="margin-top: 50px;">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}

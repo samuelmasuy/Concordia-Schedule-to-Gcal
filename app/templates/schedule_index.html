@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi!</h1>
+    <p>This is an application to transform your Concordia Schedule into Google calendar events.
+    After you sign-in into you Google account, you will need to grab the url of your schedule, please login on <a href="https://psis.concordia.ca/personalschedule/login.asp" target="_blank">MyConcordia</a> portal. When you get the schedule, copy and paste the url address down here.</p>
+    <p>If you would like to create a secondary calendar with your schedule, make sure to check the box. The name of the secondary calendar will be "Schedule Concordia".</p>
+    <p>You will need to accept that this application writes into your Google calendar. This part is done using Oauth. Visit <a href="http://oauth.net/2/" target="_blank">Oauth2 website</a> for more information information about this process.</p>
+    <p>After this step, you will have the possibility to rollback what has just been done, in case you changed your mind.</p>
+    <p>Thank you very much for using this application, I hope it was useful, please contact me if you have any problems.</p>
+
+    {% include "schedule_form.html" ignore missing %}
+
+    {% if url %}
+    <div style="margin-top: 50px;">
+        <p>{{ url }}</p>
+        <p>All the events have been created!</p>
+        <p><a href="https://www.google.com/calendar" target="_blank">Check your GCal!</a></p>
+        <p><a href="{{ url_for('schedule_delete') }}">Do you want to rollback?</a></p>
+        <p><a href="{{ url_for('logout') }}">Or logout?</a></p>
+    </div>
+    {% endif %}
+
+{% endblock %}
