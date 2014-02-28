@@ -8,7 +8,7 @@ This app also parses <http://www.concordia.ca/maps/sgw-campus.html> and <http://
 
 ## Installation
 
-I suggest you to create a [virtualenv][ve] for this project.
+I strongly suggest to create a [virtualenv][ve] for this project.
 Providing you have pip installed on your machine,
 use `pip install -r requirements.txt` to install the required modules.
 

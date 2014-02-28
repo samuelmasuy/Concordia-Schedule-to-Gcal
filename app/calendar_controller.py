@@ -7,7 +7,7 @@
 #
 #  This file may be used under the terms of the GNU General Public
 #  License version 2.0 as published by the Free Software Foundation
-#  and appearing in the file license.txt included in the packaging of
+#  and appearing in the file LICENSE included in the packaging of
 #  this file.  Please review this information to ensure GNU
 #  General Public Licensing requirements will be met.
 #
@@ -26,7 +26,7 @@
     Calendar controller.
     ~~~~~~~~~~~~~~~~~~~
 
-    Gestion with google calendar events and calendar.
+    Gestion of google calendar events and secondary calendars.
 
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
@@ -55,8 +55,7 @@ def insert_calendar(service):
         created_calendar = service.calendars().insert(body=calendar).execute()
         return created_calendar['id']
     except client.AccessTokenRefreshError:
-        print("The credentials have been revoked or expired, please re-run"
-              "the application to re-authorize")
+        print("The credentials have been revoked or are expired")
 
 
 def insert_event(service, url, calendar='primary'):
@@ -71,8 +70,7 @@ def insert_event(service, url, calendar='primary'):
         return created_events
 
     except client.AccessTokenRefreshError:
-        print("The credentials have been revoked or expired, please re-run"
-              "the application to re-authorize")
+        print("The credentials have been revoked or are expired")
 
 
 def rollback(service, created_events, calendar):

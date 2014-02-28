@@ -7,7 +7,7 @@
 #
 #  This file may be used under the terms of the GNU General Public
 #  License version 2.0 as published by the Free Software Foundation
-#  and appearing in the file license.txt included in the packaging of
+#  and appearing in the file LICENSE included in the packaging of
 #  this file.  Please review this information to ensure GNU
 #  General Public Licensing requirements will be met.
 #
