@@ -46,9 +46,12 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('credentials', None)
     app.SECRET_KEY = os.urandom(66)
-    return render_template('schedule_logout.html')
+    if 'credentials' in session:
+        session.pop('credentials', None)
+        return render_template('schedule_logout.html')
+    else:
+        return redirect(url_for('schedule_index'))
 
 
 @app.route('/oauth2callback')
