@@ -49,9 +49,11 @@ def logout():
     app.SECRET_KEY = os.urandom(66)
     if 'credentials' in session:
         session.pop('credentials', None)
+        session.pop('cal', None)
+        session.pop('events', None)
         return render_template('schedule_logout.html')
     else:
-        return redirect(url_for('schedule_index'))
+        return redirect(url_for('schedule_login'))
 
 
 @app.route('/oauth2callback')
@@ -62,7 +64,7 @@ def oauth2callback():
         try:
             credentials = flow.step2_exchange(code)
         except Exception:
-            redirect(url_for('schedule_index'))
+            return redirect(url_for('schedule_login'))
 
         c = credentials.to_json()
         session['credentials'] = c
@@ -89,38 +91,25 @@ def internal_error(error):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/schedule_index', methods=['GET', 'POST'])
 def schedule_index():
+    # Check if the user is loggedIn.
+    if 'credentials' not in session:
+        return redirect(url_for('schedule_login'))
+
     # Create form.
     form = InputUrlForm()
-    url = ''
     events = []
-    # User is not loggedIn!
-    isAnonymous = True
-
-    # If the user didn't log in, before submitting form,
-    # save what was in the url box.
-    if 'url' in session:
-        form.url.data = session['url']
-
-    # Check if the user is loggedIn.
-    if 'credentials' in session:
-        isAnonymous = False
 
     # When the form is validated, see forms.py for validation.
     if form.validate_on_submit():
         # Save what is in the field.
         url = form.url.data
         new_cal = form.new_cal.data
-        session['url'] = url
 
         # Make sure the user is actually loggedIn.
         try:
             tokken = session['credentials']
         except KeyError:
-            flash(
-                "Please accept that this application writes"
-                + " into your google calendar.")
-            return render_template('schedule_index.html', tilte="Schedule App",
-                                   form=form, isAnonymous=isAnonymous)
+            return redirect(url_for('schedule_login'))
 
         credentials = OAuth2Credentials.from_json(tokken)
         http = httplib2.Http()
@@ -138,12 +127,24 @@ def schedule_index():
         # Save events and calendar created in case the user wants to rollback.
         session['events'] = events
         session['cal'] = cal
-        session.pop('url', None)
+        return render_template('schedule_result.html', tilte="Schedule App")
     else:
         # When the form is not valid, render appropriate message.
         flash_errors(form)
     return render_template('schedule_index.html', tilte="Schedule App",
-                           form=form, url=url, isAnonymous=isAnonymous)
+                           form=form)
+
+
+@app.route('/schedule_login')
+def schedule_login():
+    # User is not loggedIn!
+    isAnonymous = True
+
+    # Check if the user is loggedIn.
+    if 'credentials' in session:
+        isAnonymous = False
+    return render_template('schedule_login.html', tilte="Schedule App",
+                           isAnonymous=isAnonymous)
 
 
 @app.route('/schedule_delete')

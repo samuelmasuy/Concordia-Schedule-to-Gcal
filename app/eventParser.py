@@ -124,7 +124,7 @@ def format_dates(day_of_the_week, hours):
         zip('monday tuesday wednesday thursday friday'.split(),
             (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
-    # get first day of the semester
+    # first day of the semester
     first_day_semester = date(2014, 1, 6)
     last_day_semester = date(2014, 4, 12)
 

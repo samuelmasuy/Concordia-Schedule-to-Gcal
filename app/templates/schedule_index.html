@@ -1,23 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi!</h1>
-    <p>This is an application to transform your Concordia Schedule into Google calendar events.
-    After you sign-in into you Google account, using the link below, you will need to grab the url of your schedule, please login on <a href="https://psis.concordia.ca/personalschedule/login.asp" target="_blank">MyConcordia</a> portal. When you get the schedule, copy and paste the url address down here.</p>
+    <p>Now that you have signed-in into you Google account, please login on <a href="https://psis.concordia.ca/personalschedule/login.asp" target="_blank">MyConcordia</a> portal to grab the url of your schedule. When you get the schedule, copy and paste the url address down here.</p>
     <p>If you would like to create a secondary calendar with your schedule, make sure to check the box. The name of the secondary calendar will be "Schedule Concordia".</p>
-    <p>You will need to accept that this application writes into your Google calendar. This part is done using Oauth. Visit <a href="http://oauth.net/2/" target="_blank">Oauth2 website</a> for more information information about this process.</p>
-    <p>After this step, you will have the possibility to rollback what has just been done. I am not keeping any information about you or your transaction therefore, make sure to check your Google calendar. If you are not satisfied click the rollback link. In case you change your mind later on, you will need to manually delete the events, or <a href="https://support.google.com/calendar/answer/37188?hl=en">the secondary calendar</a>.</p>
-    <p>Thank you very much for using this application, I hope it was useful, please contact me if you have any problems.</p>
+    <p>Thank you very much for using this application, I hope it will be useful in your student life, please contact me if you have any problems.</p>
 
     {% include "schedule_form.html" ignore missing %}
-
-    {% if url %}
-    <div style="margin-top: 50px;">
-        <p>{{ url }}</p>
-        <p>All the events have been created!</p>
-        <p><a href="https://www.google.com/calendar" target="_blank">Check your GCal!</a></p>
-        <p><a href="{{ url_for('schedule_delete') }}">Do you want to rollback?</a></p>
-        <p><a href="{{ url_for('logout') }}">Or logout?</a></p>
-    </div>
-    {% endif %}
-
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi!</h1>
+    <p>This is an application to transform your Concordia Schedule into Google calendar events.</p>
+    <p>First of all, you will need to accept that this application writes into your Google calendar. This part is done using Oauth. Visit <a href="http://oauth.net/2/" target="_blank">Oauth2 website</a> for more information about this process.</p>
+
+    {% if isAnonymous %}
+        <a href="{{ url_for('login') }}">Please Sign-in into google.</a>
+    {% else %}
+        <a href="{{ url_for('logout') }}">Log out of Google.</a>
+    {% endif %}
+
+{% endblock %}
