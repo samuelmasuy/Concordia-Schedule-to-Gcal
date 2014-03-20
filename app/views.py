@@ -22,17 +22,16 @@
 #
 #  ===========================================================================
 # -*- coding: utf-8 -*-
-from app import app
+import os
+import httplib2
+
 from flask import (render_template, session, url_for,
                    request, redirect, flash, abort)
 from forms import InputUrlForm
-
-import os
-
 from apiclient.discovery import build
-import httplib2
 from oauth2client.client import OAuth2Credentials
 
+from app import app
 from calendar_controller import (insert_calendar, insert_event,
                                  rollback, get_flow)
 

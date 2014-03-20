@@ -33,27 +33,13 @@
 """
 import urllib2
 import re
-from bs4 import BeautifulSoup
-from datetime import datetime, date, time
+from datetime import datetime, time
 from dateutil import relativedelta as rdelta
 
+from bs4 import BeautifulSoup
+
 from location import get_buildings_location
-
-
-def get_data(url):
-    """Return a list with row data from the html file."""
-    soup = make_beautiful_html(url)
-    data = []
-    # Navigate the html table.
-    rows = soup.findAll('tr')
-    for tr in rows:
-        cols = tr.findAll('td', attrs={'class': 'cusistabledata'})
-        row = []
-        for td in cols:
-            row.append(td.find(text=True))
-        if row != []:
-            data.append(row)
-    return data
+from academic_dates import academic_dates
 
 
 def make_beautiful_html(url):
@@ -62,34 +48,91 @@ def make_beautiful_html(url):
     return BeautifulSoup(response, "html5lib")
 
 
-def parse_data(data):
-    """This function returns a version of the data that is parsed as needed"""
+def get_data(url):
+    """Return a list of all courses formatted from the html file."""
+    soup = make_beautiful_html(url)
+    tables = soup.findAll('table')
+    semester_names = get_semester(soup)
+
+    # Removes uncessary data
+    if 'summer' in semester_names[0]:
+        tables.pop(0)
+        if len(tables) > 2:
+            tables.pop(1)
+    else:
+        # Removes online course
+        if len(tables) > 1:
+            tables.pop(1)
+    courses = []
+    for i, table in enumerate(tables):
+        data = []
+        rows = table.findAll('tr')
+        # Navigate the html table and get text needed.
+        for tr in rows:
+            cols = tr.findAll('td', attrs={'class': 'cusistabledata'})
+            row = []
+            for td in cols:
+                row.append(td.find(text=True))
+            if row != []:
+                data.append(row)
+        semester = semester_names[i % 2]
+        data = parse_data(semester, data)
+        courses.append(data)
+    return courses
+
+
+def get_semester(soup):
+    """This function finds the semester which will be dealt with."""
+    semester = soup.find_all(attrs={'class': 'cusisheaderdata'})
+    semester_names = []
+    for i, sem in enumerate(semester):
+        j = sem.text.lower().split(" ")[0]
+        if j == 'courses':
+            semester.pop(i)
+            continue
+        if j == 'summer':
+            j = (j + "_" + str(i + 1))
+        semester_names.append(j)
+    return semester_names
+
+
+def parse_data(semester, data):
+    """This function returns a version of the data that is parsed as needed."""
     BUILDINGS = get_buildings_location()
     new_data = []
     seen = {}
     for i, course in enumerate(data):
         row = []
-        # we don't take into consideration online courses.
-        if course[0][0] == '-':
-            continue
-        row.append(
-            format_dates(course[0], re.findall(r"[\dd']+", course[1])))
-
+        # Append dates formatted with days of the week a course is given,
+        # first and last day of semester for a specific course.
+        row.append(format_dates(semester,
+                                course[0],
+                                re.findall(r"[\dd']+", course[1])))
+        # This is the course subject and the course number.
         name_course = (course[2] + " " + course[3].split(" / ")[0])
+        # Group same course together.
         result, seen = same_course(name_course, seen, i + 1)
-
+        # Make the title for an event; course + number + location.
         row.append(result[1] + " " + course[6] + " " + course[5][:-1])
+        # Get type of course; Lecture, tutorial or labs.
         row.append(course[4][:-1])
+        # Get the name of the professor who is teaching a certain course.
         row.append(course[7][:-1])
+        # Attribute a integer to a course.
         row.append(result[0])
-        row.append(BUILDINGS[course[5][:-1].split("-")[0]])
+        # Get physical location of where the course is given
+        if course[5] == '--':
+            row.append(u"Concordia University, Montreal, QC")
+        else:
+            row.append(BUILDINGS[course[5][:-1].split("-")[0]])
         new_data.append(row)
+    # Make sure to not to have same classes considered as similars.
     new_data = recurent_event_factor(new_data)
     return new_data
 
 
 def same_course(course, seen, index):
-    """Allows to gather courses together"""
+    """Allows to gather courses together."""
     if course in seen:
         result = [seen[course], course]
     else:
@@ -116,8 +159,8 @@ def recurent_event_factor(seq):
     return result
 
 
-def format_dates(day_of_the_week, hours):
-    """Return an array with the dates formatted to iso format"""
+def format_dates(semester, day_of_the_week, hours):
+    """Return an array with the dates formatted to iso format."""
     # generator to associate each day of the week to its relativedelta type
     # correspondant.
     days_of_week_gen = dict(
@@ -125,8 +168,8 @@ def format_dates(day_of_the_week, hours):
             (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
     # first day of the semester
-    first_day_semester = date(2014, 1, 6)
-    last_day_semester = date(2014, 4, 12)
+    first_day_semester = academic_dates[semester][0]
+    last_day_semester = academic_dates[semester][1]
 
     # get first day of the academic year a specific course is given.
     r = rdelta.relativedelta(weekday=days_of_week_gen[day_of_the_week.lower()])
@@ -138,40 +181,41 @@ def format_dates(day_of_the_week, hours):
     # get start_time and end_time by concatenating the previous result.
     start_datetime = datetime.isoformat(datetime.combine(day, start_t))
     end_datetime = datetime.isoformat(datetime.combine(day, end_t))
+
     return [str(days_of_week_gen[day_of_the_week.lower()]), start_datetime,
             end_datetime, last_day_semester.strftime("%Y%m%d")]
 
 
 def to_dict(data):
     """This function takes all the data parsed and returns a dictionary
-    with all formated data."""
+    with all formated data needed for transmitting to Google calendar."""
     entries = []
-    for e in data:
-        entry = dict()
-        entry["summary"] = e[1]
-        # type of class, its section and the professor that gives it.
-        entry["description"] = ("%s with professor: %s" % (e[2], e[3]))
-        # To-do: need to get the exact location according to the classroom.
-        entry["location"] = e[5]
-        entry["colorId"] = e[4]
+    for s in data:
+        for e in s:
+            entry = dict()
+            entry["summary"] = e[1]
+            # type of class, its section and the professor that gives it.
+            entry["description"] = ("%s with professor: %s" % (e[2], e[3]))
+            entry["location"] = e[5]
+            entry["colorId"] = e[4]
+            start_dic = dict()
+            entry["start"] = start_dic
+            start_dic["dateTime"] = e[0][1]
+            start_dic["timeZone"] = "America/Montreal"
+            end_dic = dict()
+            entry["end"] = end_dic
+            end_dic["dateTime"] = e[0][2]
+            end_dic["timeZone"] = "America/Montreal"
 
-        start_dic = dict()
-        entry["start"] = start_dic
-        start_dic["dateTime"] = e[0][1]
-        start_dic["timeZone"] = "America/Montreal"
-        end_dic = dict()
-        entry["end"] = end_dic
-        end_dic["dateTime"] = e[0][2]
-        end_dic["timeZone"] = "America/Montreal"
-
-        entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
-                               (e[0][3], e[0][0])]
-        entries.append(entry)
+            entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
+                                   (e[0][3], e[0][0])]
+            entries.append(entry)
     return entries
 
 
-def get_events(url):
+def get_events():
     """Entry point for the script."""
-    data = parse_data(get_data(url))
+    url = "FILE:///Users/samuelmasuy/www/github/scheduletogcal/app/summer_schedule.html"
+    data = get_data(url)
     dics = to_dict(data)
     return dics

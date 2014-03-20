@@ -33,8 +33,9 @@
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
 """
-from bs4 import BeautifulSoup
 import urllib2
+
+from bs4 import BeautifulSoup
 
 
 sgw = "http://www.concordia.ca/maps/sgw-campus.html"

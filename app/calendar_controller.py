@@ -33,8 +33,8 @@
 """
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client import client
-from app import app
 
+from app import app
 import eventParser
 
 

@@ -1,0 +1,22 @@
+/** {
+    margin: 0;
+}*/
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 2em auto -203px;
+}
+footer, .push {
+    height: 15em; /* '.push' must be the same height as 'footer' */
+}
+
+/*
+
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+
+*/

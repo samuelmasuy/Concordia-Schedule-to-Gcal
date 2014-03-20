@@ -22,11 +22,12 @@
 #
 #  ===========================================================================
 # -*- coding: utf-8 -*-
+import urllib2
+
 from flask.ext.wtf import Form
 from wtforms import BooleanField
 from wtforms.validators import Required
 from wtforms.fields.html5 import URLField
-import urllib2
 
 
 class InputUrlForm(Form):

@@ -6,11 +6,12 @@
     {% else %}
     <title>Samuel's page.</title>
     {% endif %}
+    <link href="./static/css/layout.css" rel="stylesheet">
     <link href="./static/css/index.css" rel="stylesheet">
     <link rel="shortcut icon" href="./static/img/favicon.ico">
   </head>
   <body>
-    <div class="container">
+    <div class="wrapper">
       <header>
         Samuel Masuy
       </header>
@@ -23,16 +24,17 @@
       <div class="body">
         {% block content %}{% endblock %}
       </div>
-      <footer>
-        <p>© Copyright 2014 Samuel Masuy.</p>
-        <p>
-        Content licensed under the Creative Commons License.
-        </p>
-        <p>
-        Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
-        <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
-        </p>
-      </footer>
+      <div class="push"></div>
     </div>
+    <footer>
+      <p>© Copyright 2014 Samuel Masuy.</p>
+      <p>
+      Content licensed under the Creative Commons License.
+      </p>
+      <p>
+      Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
+      <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
+      </p>
+    </footer>
   </body>
 </html>

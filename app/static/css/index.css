@@ -1,9 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 body {
     font: 18px 'Bitstream Vera Sans Mono', sans-serif;
-    margin: 0;
+    /*margin: 0;*/
     padding: 0;
     font-weight: 300;
+}
+header, footer, article, aside {
+    display: block;
 }
 a {
     color: black;
@@ -13,15 +16,28 @@ a:hover {
     color: rgb(58, 133, 202);
 }
 h1, h2, h3, h4, h5, h6 {
-    /*font-family: 'Helvetica', sans-serif;*/
     font-family: 'Lato', sans-serif;
     font-weight: 400;
     color: #222;
 }
-div.container {
+.wrapper {
+    position: relative;
     width: 740px;
-    margin: 48px auto;
     padding: 0;
+}
+footer {
+    position: relative;
+    width: 740px;
+    margin: 4em auto;
+
+    border-top: 1px solid #555;
+    padding-top: 10px;
+    font-size: 16px;
+    text-align: center;
+    color: #555;
+}
+footer p {
+    margin: 0;
 }
 header {
     float: left;
@@ -54,18 +70,6 @@ nav ul li {
 div.body {
     clear: both;
 }
-footer {
-    border-top: 1px solid #555;
-    clear: both;
-    padding-top: 10px;
-    margin-top: 55px;
-    font-size: 16px;
-    text-align: center;
-    color: #555;
-}
-footer p {
-    margin: 0;
-}
 aside {
     float: right;
     padding-left: 15px;
@@ -76,8 +80,6 @@ aside p {
     font-style: italic;
     font-size: 15px;
 }
-
-
 #contact-area {
     width: auto;
     margin-top: 35px;
