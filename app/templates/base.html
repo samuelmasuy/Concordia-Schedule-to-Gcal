@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% if title %}
-    <title>{{title}}</title>
+    {% if request.path.startswith('/schedule') %}
+    <title>Schedule App</title>
+    <link rel="shortcut icon" href="./static/img/sg.png">
     {% else %}
+    <link rel="shortcut icon" href="./static/img/favicon.ico">
     <title>Samuel's page.</title>
     {% endif %}
     <link href="./static/css/layout.css" rel="stylesheet">
     <link href="./static/css/index.css" rel="stylesheet">
-    {% block favicon %}
-    {% endblock %}
   </head>
   <body>
     <div class="wrapper">

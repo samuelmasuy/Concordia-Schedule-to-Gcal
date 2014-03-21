@@ -166,6 +166,6 @@ def schedule_delete():
         session.pop('cal', None)
         session.pop('events', None)
         return render_template('schedule_delete.html',
-                               title="Deleted events and calendar", cal=cal)
+                               title="Schedule App", cal=cal)
     except KeyError:
         return abort(404)
