@@ -1,12 +1,54 @@
+#  ===========================================================================
+#
+#  Copyright (C) 2014 Samuel Masuy. All rights reserved.
+#  samuel.masuy@gmail.com
+#
+#  This file is part of ScheduleToGoogleCal.
+#
+#  This file may be used under the terms of the GNU General Public
+#  License version 2.0 as published by the Free Software Foundation
+#  and appearing in the file LICENSE included in the packaging of
+#  this file.  Please review this information to ensure GNU
+#  General Public Licensing requirements will be met.
+#
+#  This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+#  WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#  For use of this library in commercial applications, please contact
+#  samuel.masuy@gmail.com
+#
+#  ===========================================================================
+# -*- coding: utf-8 -*-
+"""
+    Academic_dates.
+    ~~~~~~~~~~~~~~
+
+    Start and end of an term from the 2014-2015 academic year.
+
+    :copyright: (c) 2014 by Samuel Masuy.
+    :license: GNU version 2.0, see LICENSE for more details.
+"""
 from datetime import date
 
 academic_dates = {
-    'summer_1': [date(2014, 5, 7), date(2014, 6, 23)],
-    'summer_2': [date(2014, 7, 7), date(2014, 8, 19)],
-    'fall': [date(2014, 9, 2), date(2014, 12, 1)],
-    # 'winter': [date(2015, 1, 7), date(2015, 4, 14)]
-    'winter': [date(2014, 1, 6), date(2014, 4, 15)]
+    2014: [(07, 05, 2014), (23, 06, 2014), (07, 07, 2014), (19, 8, 2014),
+           (02, 9, 2014), (01, 12, 2014), (07, 01, 2015), (14, 04, 2015)]
 }
+terms = ['summer_1', 'summer_2', 'fall', 'winter']
+
+
+def _reverse((x, y, z)):
+    return date(z, y, x)
+
+
+def get_academic_dates(year, semester):
+    global academic_dates
+    dates = [_reverse(d) for d in academic_dates[year]]
+    academic_dates = dict(zip(terms, zip(*([iter(dates)] * 2))))
+    return academic_dates[semester]
 
 # May 7, 2014 (07,05,2014)
 # June 23, 2014 (23,06,2014)

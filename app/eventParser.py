@@ -39,7 +39,7 @@ from dateutil import relativedelta as rdelta
 from bs4 import BeautifulSoup
 
 from location import get_buildings_location
-from academic_dates import academic_dates
+from academic_dates import get_academic_dates
 
 
 def make_beautiful_html(url):
@@ -48,21 +48,33 @@ def make_beautiful_html(url):
     return BeautifulSoup(response, "html5lib")
 
 
+def strip_html(url):
+    """Returns a beautiful soup Object
+                TODO
+    This function finds the semester which will be dealt with."""
+    soup = make_beautiful_html(url)
+    semester_names = []
+    for i, q in enumerate(soup.find_all(attrs={'class': 'cusisheaderdata'})):
+        s = q.text.split(" ")
+        if len(s) > 3:
+            q.findNext('table').extract()
+            q.extract()
+        if i == 1:
+            year = s[2]
+        term = s[0].lower()
+
+        if 'summer' in term:
+            q.findNext('table').extract()
+            term = (term + "_" + str(i + 1))
+            q.extract()
+        semester_names.append(term)
+    return semester_names, year, soup
+
+
 def get_data(url):
     """Return a list of all courses formatted from the html file."""
-    soup = make_beautiful_html(url)
+    term, year, soup = strip_html(url)
     tables = soup.findAll('table')
-    semester_names = get_semester(soup)
-
-    # Removes uncessary data
-    if 'summer' in semester_names[0]:
-        tables.pop(0)
-        if len(tables) > 2:
-            tables.pop(1)
-    else:
-        # Removes online course
-        if len(tables) > 1:
-            tables.pop(1)
     courses = []
     for i, table in enumerate(tables):
         data = []
@@ -75,28 +87,13 @@ def get_data(url):
                 row.append(td.find(text=True))
             if row != []:
                 data.append(row)
-        semester = semester_names[i % 2]
-        data = parse_data(semester, data)
+        semester = term[i % 2]
+        data = parse_data(year, semester, data)
         courses.append(data)
     return courses
 
 
-def get_semester(soup):
-    """This function finds the semester which will be dealt with."""
-    semester = soup.find_all(attrs={'class': 'cusisheaderdata'})
-    semester_names = []
-    for i, sem in enumerate(semester):
-        j = sem.text.lower().split(" ")[0]
-        if j == 'courses':
-            semester.pop(i)
-            continue
-        if j == 'summer':
-            j = (j + "_" + str(i + 1))
-        semester_names.append(j)
-    return semester_names
-
-
-def parse_data(semester, data):
+def parse_data(year, semester, data):
     """This function returns a version of the data that is parsed as needed."""
     BUILDINGS = get_buildings_location()
     new_data = []
@@ -105,7 +102,8 @@ def parse_data(semester, data):
         row = []
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
-        row.append(format_dates(semester,
+        row.append(format_dates(year,
+                                semester,
                                 course[0],
                                 re.findall(r"[\dd']+", course[1])))
         # This is the course subject and the course number.
@@ -159,7 +157,7 @@ def recurent_event_factor(seq):
     return result
 
 
-def format_dates(semester, day_of_the_week, hours):
+def format_dates(year, semester, day_of_the_week, hours):
     """Return an array with the dates formatted to iso format."""
     # generator to associate each day of the week to its relativedelta type
     # correspondant.
@@ -168,8 +166,7 @@ def format_dates(semester, day_of_the_week, hours):
             (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
     # first day of the semester
-    first_day_semester = academic_dates[semester][0]
-    last_day_semester = academic_dates[semester][1]
+    first_day_semester, last_day_semester = get_academic_dates(year, semester)
 
     # get first day of the academic year a specific course is given.
     r = rdelta.relativedelta(weekday=days_of_week_gen[day_of_the_week.lower()])
@@ -206,16 +203,17 @@ def to_dict(data):
             entry["end"] = end_dic
             end_dic["dateTime"] = e[0][2]
             end_dic["timeZone"] = "America/Montreal"
-
             entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
                                    (e[0][3], e[0][0])]
             entries.append(entry)
     return entries
 
 
-def get_events():
+url = "FILE:///Users/samuelmasuy/www/github/scheduletogcal/app/summer_schedule.html"
+
+
+def get_events(url=url):
     """Entry point for the script."""
-    url = "FILE:///Users/samuelmasuy/www/github/scheduletogcal/app/summer_schedule.html"
     data = get_data(url)
     dics = to_dict(data)
     return dics
