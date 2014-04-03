@@ -47,6 +47,9 @@ class InputUrlForm(Form):
             self.errors['url'] = url_error
             return False
         else:
+            if "psis.concordia.ca" not in self.url.data:
+                self.errors['url'] = url_error
+                return False
             if "ClassSchedule1" not in self.url.data:
                 if "ClassSchedule2" in self.url.data:
                     self.url.data = self.url.data.replace(

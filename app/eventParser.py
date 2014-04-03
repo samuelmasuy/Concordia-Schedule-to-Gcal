@@ -209,10 +209,7 @@ def to_dict(data):
     return entries
 
 
-url = "FILE:///Users/samuelmasuy/www/github/scheduletogcal/app/summer_schedule.html"
-
-
-def get_events(url=url):
+def get_events(url):
     """Entry point for the script."""
     data = get_data(url)
     dics = to_dict(data)
