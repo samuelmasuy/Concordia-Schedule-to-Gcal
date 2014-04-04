@@ -33,20 +33,24 @@
 """
 from datetime import date
 
-academic_dates = {
-    2014: [(07, 05, 2014), (23, 06, 2014), (07, 07, 2014), (19, 8, 2014),
-           (02, 9, 2014), (01, 12, 2014), (07, 01, 2015), (14, 04, 2015)]
-}
+
 terms = ['summer_1', 'summer_2', 'fall', 'winter']
 
 
-def _reverse((x, y, z)):
-    return date(z, y, x)
-
-
 def get_academic_dates(year, semester):
-    global academic_dates
-    dates = [_reverse(d) for d in academic_dates[year]]
+    print type(year)
+    academic_dates = {
+        u'2014': [date(2014, 5, 7),
+                  date(2014, 6, 23),
+                  date(2014, 7, 7),
+                  date(2014, 8, 19),
+                  date(2014, 9, 2),
+                  date(2014, 12, 1),
+                  date(2015, 1, 7),
+                  date(2015, 4, 14)],
+    }
+
+    dates = academic_dates[year]
     academic_dates = dict(zip(terms, zip(*([iter(dates)] * 2))))
     return academic_dates[semester]
 
