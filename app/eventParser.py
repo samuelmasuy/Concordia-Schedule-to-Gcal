@@ -48,23 +48,28 @@ def make_beautiful_html(url):
     return BeautifulSoup(response, "html5lib")
 
 
-def strip_html(url):
-    """Returns a beautiful soup Object
-                TODO
-    This function finds the semester which will be dealt with."""
+def strip_and_find_semester(url):
+    """Returns a beautiful soup Object, that is striped from unnecessary data,
+    also return the semester name and the academic year."""
     soup = make_beautiful_html(url)
     semester_names = []
+    # Find the headers, they represent the academic term and the year.
     for i, q in enumerate(soup.find_all(attrs={'class': 'cusisheaderdata'})):
-        s = q.text.split(" ")
-        if len(s) > 3:
+        # Break the header in piece, on one side we will find the term, for
+        # instance: 'fall', on the other side we will fing the academic year.
+        header = q.text.split(" ")
+        # Remove unnecessary data.
+        if len(header) > 3:
             q.findNext('table').extract()
             q.extract()
-        if i == 1:
-            year = s[2]
-        term = s[0].lower()
-
+        # Only take the year once (in case of 2 terms in one semester).
+        if i == 0:
+            year = header[2]
+        term = header[0].lower()
+        # Deal with the summer semester.
         if 'summer' in term:
             q.findNext('table').extract()
+            # Identification of the summer term(s).
             term = (term + "_" + str(i + 1))
             q.extract()
         semester_names.append(term)
@@ -73,7 +78,7 @@ def strip_html(url):
 
 def get_data(url):
     """Return a list of all courses formatted from the html file."""
-    term, year, soup = strip_html(url)
+    term, year, soup = strip_and_find_semester(url)
     print type(year)
     tables = soup.findAll('table')
     courses = []
@@ -103,7 +108,6 @@ def parse_data(year, semester, data):
         row = []
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
-        print type(year)
         row.append(format_dates(year,
                                 semester,
                                 course[0],
@@ -120,13 +124,13 @@ def parse_data(year, semester, data):
         row.append(course[7][:-1])
         # Attribute a integer to a course.
         row.append(result[0])
-        # Get physical location of where the course is given
+        # Get physical location of where the course is given.
         if course[5] == '--':
             row.append(u"Concordia University, Montreal, QC")
         else:
             row.append(BUILDINGS[course[5][:-1].split("-")[0]])
         new_data.append(row)
-    # Make sure to not to have same classes considered as similars.
+    # Make sure to not to have same classes considered as similar.
     new_data = recurent_event_factor(new_data)
     return new_data
 
@@ -160,25 +164,24 @@ def recurent_event_factor(seq):
 
 
 def format_dates(year, semester, day_of_the_week, hours):
-    print type(year)
     """Return an array with the dates formatted to iso format."""
-    # generator to associate each day of the week to its relativedelta type
-    # correspondant.
+    # Generator to associate each day of the week to its relativedelta type
+    # correspondent.
     days_of_week_gen = dict(
         zip('monday tuesday wednesday thursday friday'.split(),
             (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
-    # first day of the semester
+    # First day of the semester
     first_day_semester, last_day_semester = get_academic_dates(year, semester)
 
-    # get first day of the academic year a specific course is given.
+    # Get first day of the academic year a specific course is given.
     r = rdelta.relativedelta(weekday=days_of_week_gen[day_of_the_week.lower()])
     day = first_day_semester + r
 
     start_t = time(int(hours[0]), int(hours[1]))
     end_t = time(int(hours[2]), int(hours[3]))
 
-    # get start_time and end_time by concatenating the previous result.
+    # Get start_time and end_time by concatenating the previous result.
     start_datetime = datetime.isoformat(datetime.combine(day, start_t))
     end_datetime = datetime.isoformat(datetime.combine(day, end_t))
 
@@ -211,7 +214,7 @@ def to_dict(data):
             entries.append(entry)
     return entries
 
-url = 'file:///users/samuelmasuy/www/github/scheduletogcal/app/exemples/summer_schedule.html'
+url = 'file:///app/html_schedules_debug/summer_schedule.html'
 
 
 def get_events(url=url):
