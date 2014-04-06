@@ -32,8 +32,7 @@ from apiclient.discovery import build
 from oauth2client.client import OAuth2Credentials
 
 from app import app
-from calendar_controller import (insert_calendar, insert_event,
-                                 rollback, get_flow)
+from calendar_controller import insert_event, rollback, get_flow
 
 
 @app.route('/login')
@@ -103,7 +102,6 @@ def schedule_index():
         # Save what is in the field.
         url = form.url.data
         new_cal = form.new_cal.data
-
         # Make sure the user is actually loggedIn.
         try:
             tokken = session['credentials']
@@ -116,13 +114,8 @@ def schedule_index():
         # Create service required to manipulate the user calendar.
         service = build("calendar", "v3", http=http)
 
-        # Insert a secondary if the user check the box.
-        if new_cal is True:
-            cal = insert_calendar(service)
-        else:
-            cal = 'primary'
         # Insert events.
-        events = insert_event(service, url, cal)
+        cal, events = insert_event(service, url, new_cal)
         # Save events and calendar created in case the user wants to rollback.
         session['events'] = events
         session['cal'] = cal

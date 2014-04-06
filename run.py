@@ -24,7 +24,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Samuel Masuy'
 __email__ = 'samuel.masuy@gmail.com'
-__version__ = '0.5.1'
 
 from app import app
 

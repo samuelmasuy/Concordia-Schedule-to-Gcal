@@ -58,16 +58,22 @@ def insert_calendar(service):
         print("The credentials have been revoked or are expired")
 
 
-def insert_event(service, url, calendar='primary'):
+def insert_event(service, url, new_cal):
     """ Insert events in the user calendar. """
     try:
         created_events = []
         events = eventParser.get_events(url)
+        # Insert a secondary or insert the events in the user's main calendar.
+        if new_cal:
+            calendar = insert_calendar(service)
+        else:
+            calendar = 'primary'
+
         for event in events:
             created_event = service.events().insert(
                 calendarId=calendar, body=event).execute()
             created_events.append(created_event['id'])
-        return created_events
+        return calendar, created_events
 
     except client.AccessTokenRefreshError:
         print("The credentials have been revoked or are expired")
