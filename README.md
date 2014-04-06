@@ -14,7 +14,8 @@ use `pip install -r requirements.txt` to install the required modules.
 
 ## Configuration file
 
-Make sure to modify appropriately [config.py](/config.py/), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. This application also needs to have the Google calendar scope to be able to operate.
+Make sure to modify appropriately [config_example.py][conf], with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. This application also needs to have the Google calendar scope to be able to operate.
+
 
 ## Running
 
@@ -44,4 +45,5 @@ Please refer to [LICENSE](/LICENSE/).
 [gapi]: https://developers.google.com/console/
 [ve]: http://www.virtualenv.org/en/latest/virtualenv.html#installation
 [fl]: http://flask.pocoo.org/docs/
+[conf]: https://github.com/samuelmasuy/Concordia-Schedule-to-Gcal/blob/master/config_example.py
 [f8]: https://pypi.python.org/pypi/flake8
