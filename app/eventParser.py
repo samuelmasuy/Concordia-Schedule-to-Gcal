@@ -74,6 +74,7 @@ def strip_html(url):
 def get_data(url):
     """Return a list of all courses formatted from the html file."""
     term, year, soup = strip_html(url)
+    print type(year)
     tables = soup.findAll('table')
     courses = []
     for i, table in enumerate(tables):
@@ -102,6 +103,7 @@ def parse_data(year, semester, data):
         row = []
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
+        print type(year)
         row.append(format_dates(year,
                                 semester,
                                 course[0],
@@ -158,6 +160,7 @@ def recurent_event_factor(seq):
 
 
 def format_dates(year, semester, day_of_the_week, hours):
+    print type(year)
     """Return an array with the dates formatted to iso format."""
     # generator to associate each day of the week to its relativedelta type
     # correspondant.
@@ -208,8 +211,10 @@ def to_dict(data):
             entries.append(entry)
     return entries
 
+url = 'file:///users/samuelmasuy/www/github/scheduletogcal/app/exemples/summer_schedule.html'
 
-def get_events(url):
+
+def get_events(url=url):
     """Entry point for the script."""
     data = get_data(url)
     dics = to_dict(data)
