@@ -4,7 +4,7 @@
         <label for="URL">Url of your schedule:</label>
         {{ form.url(size = 100, maxlength = 260) }}<br /><br />
         <label for="newCal">Create a new secondary calendar:</label>
-        {{ form.new_cal() }}<br /><br />
+        {{ form.cal_id() }}<br /><br />
         <input type="submit" value="Submit" class="submit-button" />
     </form>
 </div>
@@ -12,7 +12,7 @@
   {% if messages %}
     <ul class=flashes style="margin-top: 50px;">
     {% for message in messages %}
-      <li>{{ message }}</li>
+      <li>{{ message | safe }}</li>
     {% endfor %}
     </ul>
   {% endif %}

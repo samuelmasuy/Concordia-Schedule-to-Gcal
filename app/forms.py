@@ -25,17 +25,24 @@
 import urllib2
 
 from flask.ext.wtf import Form
-from wtforms import BooleanField
+from wtforms.fields import RadioField
 from wtforms.validators import Required
 from wtforms.fields.html5 import URLField
 
 
 class InputUrlForm(Form):
+    sec_label = 'Create a new secondary Calendar: "Schedule Concordia" or' \
+        'append the events to your existing secondary Calendar'
+    prim_label = 'Append the events to your primary calendar.'
     url = URLField('url', validators=[Required()])
-    new_cal = BooleanField('new_cal')
+    cal_id = RadioField('cal_id',
+                        choices=[('sec', sec_label), ('prim', prim_label)])
 
     def validate(self):
-        url_error = ["Wrong type of URL!"]
+        url_error = [
+            "Make sure to login on " +
+            "<a href='http://psis.concordia.ca/personalschedule/login.asp'>" +
+            "MyConcordia portal.</a> and paste the url of your schedule."]
         if not Form.validate(self):
             return False
         try:
