@@ -42,16 +42,23 @@ from location import get_buildings_location
 from academic_dates import get_academic_dates
 
 
-def make_beautiful_html(url):
+def get_events(pre_soup):
+    """Entry point for the script."""
+    data = get_data(pre_soup)
+    dics = to_dict(data)
+    return dics
+
+
+def make_beautiful_soup(url):
     """Open and read URL and turn it into a BeautifulSoup Object."""
     response = urllib2.urlopen(url).read().replace("&nbsp;", "")
     return BeautifulSoup(response, "html5lib")
 
 
-def strip_and_find_semester(url):
+def strip_and_find_semester(soup):
     """Returns a beautiful soup Object, that is striped from unnecessary data,
-    also return the semester name and the academic year."""
-    soup = make_beautiful_html(url)
+    also return the headers of the event, or in other words the time of the
+    event (semester and academic year)."""
     semester_names = []
     # Find the headers, they represent the academic term and the year.
     for i, q in enumerate(soup.find_all(attrs={'class': 'cusisheaderdata'})):
@@ -76,10 +83,9 @@ def strip_and_find_semester(url):
     return semester_names, year, soup
 
 
-def get_data(url):
+def get_data(pre_soup):
     """Return a list of all courses formatted from the html file."""
-    term, year, soup = strip_and_find_semester(url)
-    print type(year)
+    term, year, soup = strip_and_find_semester(pre_soup)
     tables = soup.findAll('table')
     courses = []
     for i, table in enumerate(tables):
@@ -191,7 +197,7 @@ def format_dates(year, semester, day_of_the_week, hours):
 
 def to_dict(data):
     """This function takes all the data parsed and returns a dictionary
-    with all formated data needed for transmitting to Google calendar."""
+    with all formated data needed to transmit to Google calendar."""
     entries = []
     for s in data:
         for e in s:
@@ -213,12 +219,3 @@ def to_dict(data):
                                    (e[0][3], e[0][0])]
             entries.append(entry)
     return entries
-
-url = 'file:///app/html_schedules_debug/summer_schedule.html'
-
-
-def get_events(url=url):
-    """Entry point for the script."""
-    data = get_data(url)
-    dics = to_dict(data)
-    return dics
