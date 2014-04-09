@@ -42,7 +42,7 @@ sgw = "http://www.concordia.ca/maps/sgw-campus.html"
 loy = "http://www.concordia.ca/maps/loyola-campus.html"
 
 
-def make_beautiful_html(url):
+def make_beautiful_soup(url):
     """Open and read URL and turn it into a BeautifulSoup Object."""
     response = urllib2.urlopen(url).read()
     return BeautifulSoup(response, "html5lib")
@@ -51,10 +51,9 @@ def make_beautiful_html(url):
 def get_buildings_location():
     """Returns a dictionary of all the buildings' address associated
     with their abbreviations."""
-
     # Make BeautifulSoup object out of the 2 campus urls.
-    soup_sgw = make_beautiful_html(sgw)
-    soup_loy = make_beautiful_html(loy)
+    soup_sgw = make_beautiful_soup(sgw)
+    soup_loy = make_beautiful_soup(loy)
 
     # Find all the data that matter for us.
     links_sgw = soup_sgw.find_all(attrs={'class': 'acc'})

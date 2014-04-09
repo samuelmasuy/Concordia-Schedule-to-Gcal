@@ -38,7 +38,6 @@ terms = ['summer_1', 'summer_2', 'fall', 'winter']
 
 
 def get_academic_dates(year, semester):
-    print type(year)
     academic_dates = {
         u'2014': [date(2014, 5, 7),
                   date(2014, 6, 23),
