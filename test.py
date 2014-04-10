@@ -37,6 +37,8 @@ from bs4 import BeautifulSoup
 
 from app import eventParser
 
+import time
+
 
 def make_beatiful_soup(url):
     """Open and read html files and turn it into a BeautifulSoup Object."""
@@ -44,11 +46,18 @@ def make_beatiful_soup(url):
         response = f.read()
         return BeautifulSoup(response, "html5lib")
 
-path = join("app", "html_schedules_debug")
-testurls = [join(path, f) for f in listdir(path) if isfile(join(path, f))]
 
-for i, url in enumerate(testurls):
-    pre_soup = make_beatiful_soup(url)
-    events = eventParser.get_events(pre_soup)
-    print "%s\n\n\t\t test %d \non %s\n" % (79 * '_', i + 1, url)
-    pprint(events)
+def main():
+    path = join("app", "html_schedules_debug")
+    testurls = [join(path, f) for f in listdir(path) if isfile(join(path, f))]
+    intermediate_time = time.time()
+    for i, url in enumerate(testurls):
+        print "%s\n\n\t\t test %d \non %s\n" % (79 * '_', i + 1, url)
+        pre_soup = make_beatiful_soup(url)
+        events = eventParser.get_events(pre_soup)
+        pprint(events)
+        intermediate_time = time.time() - intermediate_time
+        print intermediate_time
+
+if __name__ == "__main__":
+    main()
