@@ -23,13 +23,10 @@
 #  ===========================================================================
 # -*- coding: utf-8 -*-
 import os
-import httplib2
 
 from flask import (render_template, session, url_for,
                    request, redirect, flash, abort)
 from forms import InputUrlForm
-from apiclient.discovery import build
-from oauth2client.client import OAuth2Credentials
 
 from app import app
 from calendar_controller import insert_event, rollback, get_flow
@@ -49,6 +46,7 @@ def logout():
         session.pop('credentials', None)
         session.pop('cal', None)
         session.pop('events', None)
+        session.pop('new_cal', None)
         return render_template('schedule_logout.html')
     else:
         return redirect(url_for('schedule_login'))
@@ -96,26 +94,13 @@ def schedule_index():
     # Create form.
     form = InputUrlForm()
     events = []
-
     # When the form is validated, see forms.py for validation.
     if form.validate_on_submit():
         # Save what is in the field.
         url = form.url.data
-        new_cal = form.new_cal.data
-        # Make sure the user is actually loggedIn.
-        try:
-            tokken = session['credentials']
-        except KeyError:
-            return redirect(url_for('schedule_login'))
-
-        credentials = OAuth2Credentials.from_json(tokken)
-        http = httplib2.Http()
-        http = credentials.authorize(http)
-        # Create service required to manipulate the user calendar.
-        service = build("calendar", "v3", http=http)
-
+        new_cal = form.cal_id.data
         # Insert events.
-        cal, events = insert_event(service, url, new_cal)
+        cal, events = insert_event(url, new_cal)
         # Save events and calendar created in case the user wants to rollback.
         session['events'] = events
         session['cal'] = cal
@@ -131,7 +116,6 @@ def schedule_index():
 def schedule_login():
     # User is not loggedIn!
     isAnonymous = True
-
     # Check if the user is loggedIn.
     if 'credentials' in session:
         isAnonymous = False
@@ -146,15 +130,9 @@ def schedule_delete():
         if session['cal'] is None:
             return abort(404)
 
-        credentials = session['credentials']
-
-        credentials = OAuth2Credentials.from_json(credentials)
-        http = httplib2.Http()
-        http = credentials.authorize(http)
-        service = build("calendar", "v3", http=http)
-
         events_to_delete = session['events']
-        rollback(service, events_to_delete, cal)
+        calendar_to_delete = session['new_cal']
+        rollback(events_to_delete, calendar_to_delete, cal)
 
         session.pop('cal', None)
         session.pop('events', None)
