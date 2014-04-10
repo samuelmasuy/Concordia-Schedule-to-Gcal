@@ -34,24 +34,24 @@
 from datetime import date
 
 
-terms = ['summer_1', 'summer_2', 'fall', 'winter']
-
-
 def get_academic_dates(year, semester):
     academic_dates = {
-        u'2014': [date(2014, 5, 7),
-                  date(2014, 6, 23),
-                  date(2014, 7, 7),
-                  date(2014, 8, 19),
-                  date(2014, 9, 2),
-                  date(2014, 12, 1),
-                  date(2015, 1, 7),
-                  date(2015, 4, 14)],
+        '2013': {
+            'winter': (date(2013, 1, 7),
+                       date(2013, 4, 14))
+        },
+        '2014': {
+            'summer_1': (date(2014, 5, 7),
+                         date(2014, 6, 23)),
+            'summer_2': (date(2014, 7, 7),
+                         date(2014, 8, 19)),
+            'fall': (date(2014, 9, 2),
+                     date(2014, 12, 1)),
+            'winter': (date(2015, 1, 7),
+                       date(2015, 4, 14))
+        }
     }
-
-    dates = academic_dates[year]
-    academic_dates = dict(zip(terms, zip(*([iter(dates)] * 2))))
-    return academic_dates[semester]
+    return academic_dates[year][semester]
 
 # May 7, 2014 (07,05,2014)
 # June 23, 2014 (23,06,2014)
@@ -66,3 +66,4 @@ def get_academic_dates(year, semester):
 # February 23, 2015 (23,02,2015) Spring Break Start
 # March 1, 2015 (01,03,2015) Spring Break End
 # April 14, 2015 (14,04,2015)
+# academic_dates = dict(zip(terms, zip(*([iter(dates)] * 2))))
