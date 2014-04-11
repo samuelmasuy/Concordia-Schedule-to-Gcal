@@ -32,7 +32,7 @@ from wtforms.fields.html5 import URLField
 
 class InputUrlForm(Form):
     sec_label = 'Create a new secondary Calendar: "Schedule Concordia" or' \
-        'append the events to your existing secondary Calendar'
+        ' append the events to your existing secondary Calendar.'
     prim_label = 'Append the events to your primary calendar.'
     url = URLField('url', validators=[Required()])
     cal_id = RadioField('cal_id',

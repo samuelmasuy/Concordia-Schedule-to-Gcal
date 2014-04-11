@@ -60,6 +60,7 @@ def strip_and_find_semester(soup):
     also return the headers of the event, or in other words the time of the
     event (semester and academic year)."""
     semester_names = []
+    year = '2014'
     # Find the headers, they represent the academic term and the year.
     for i, q in enumerate(soup.find_all(attrs={'class': 'cusisheaderdata'})):
         # Break the header in piece, on one side we will find the term, for
@@ -88,6 +89,7 @@ def get_data(pre_soup):
     term, year, soup = strip_and_find_semester(pre_soup)
     tables = soup.findAll('table')
     courses = []
+    buildings = get_buildings_location()
     for i, table in enumerate(tables):
         data = []
         rows = table.findAll('tr')
@@ -100,14 +102,14 @@ def get_data(pre_soup):
             if row != []:
                 data.append(row)
         semester = term[i % 2]
-        data = parse_data(year, semester, data)
+        print data
+        data = parse_data(year, semester, data, buildings)
         courses.append(data)
     return courses
 
 
-def parse_data(year, semester, data):
+def parse_data(year, semester, data, buildings):
     """This function returns a version of the data that is parsed as needed."""
-    BUILDINGS = get_buildings_location()
     new_data = []
     seen = {}
     for i, course in enumerate(data):
@@ -134,7 +136,8 @@ def parse_data(year, semester, data):
         if course[5] == '--':
             row.append(u"Concordia University, Montreal, QC")
         else:
-            row.append(BUILDINGS[course[5][:-1].split("-")[0]])
+            building_initial = course[5][:-1].split("-")[0]
+            row.append(buildings[building_initial])
         new_data.append(row)
     # Make sure to not to have same classes considered as similar.
     new_data = recurent_event_factor(new_data)

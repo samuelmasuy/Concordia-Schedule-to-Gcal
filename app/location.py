@@ -45,7 +45,7 @@ loy = "http://www.concordia.ca/maps/loyola-campus.html"
 def make_beautiful_soup(url):
     """Open and read URL and turn it into a BeautifulSoup Object."""
     response = urllib2.urlopen(url).read()
-    return BeautifulSoup(response, "html5lib")
+    return BeautifulSoup(response, "lxml")
 
 
 def get_buildings_location():

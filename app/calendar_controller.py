@@ -93,7 +93,6 @@ def insert_event(url, new_cal):
                 calendar = insert_calendar(service)
         else:
             calendar = 'primary'
-
         for event in events:
             created_event = service.events().insert(
                 calendarId=calendar, body=event).execute()
