@@ -60,7 +60,6 @@ def strip_and_find_semester(soup):
     also return the headers of the event, or in other words the time of the
     event (semester and academic year)."""
     semester_names = []
-    year = '2014'
     # Find the headers, they represent the academic term and the year.
     for i, q in enumerate(soup.find_all(attrs={'class': 'cusisheaderdata'})):
         # Break the header in piece, on one side we will find the term, for
