@@ -36,7 +36,8 @@ class InputUrlForm(Form):
     prim_label = 'Append the events to your primary calendar.'
     url = URLField('url', validators=[Required()])
     cal_id = RadioField('cal_id',
-                        choices=[('sec', sec_label), ('prim', prim_label)])
+                        choices=[('sec', sec_label), ('prim', prim_label)],
+                        default='sec')
 
     def validate(self):
         url_error = [

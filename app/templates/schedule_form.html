@@ -1,11 +1,10 @@
-<div id="contact-area">
+<div id="url-area">
     <form action="" method="post" name="url">
         {{form.hidden_tag()}}
         <label for="URL">Url of your schedule:</label>
-        {{ form.url(size = 100, maxlength = 260) }}<br /><br />
-        <label for="newCal">Create a new secondary calendar:</label>
-        {{ form.cal_id() }}<br /><br />
-        <input type="submit" value="Submit" class="submit-button" />
+        {{ form.url(size = 100, maxlength = 260) }}<br>
+        {{ form.cal_id() }}
+        <input class="next" type="submit" value="Create Events"/>
     </form>
 </div>
 {% with messages = get_flashed_messages() %}

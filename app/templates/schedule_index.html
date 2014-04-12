@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>Now that you have signed-in into you Google account, please login on <a href="https://psis.concordia.ca/personalschedule/login.asp" target="_blank">MyConcordia</a> portal to grab the url of your schedule. When you get the schedule, copy and paste the url address down here.</p>
-    <p>Thank you very much for using this application, I hope it will be useful in your student life, please <a href="mailto:samuel.masuy@gmail.com">contact</a> me if you have any problems.</p>
+    <p>Please login on MyConcordia
+     portal to grab the url of your schedule. When you get the schedule, copy and paste the url address down here.<br><a style="float:left;" class="next"href="https://psis.concordia.ca/personalschedule/login.asp" target="_blank">MyConcordia</a></p>
 
     {% include "schedule_form.html" ignore missing %}
+
+<br><br>
+    <p>Thank you very much for using this application, I hope it will be useful in your student life, please <a href="mailto:samuel.masuy@gmail.com">contact</a> me if you have any problems.</p>
 {% endblock %}

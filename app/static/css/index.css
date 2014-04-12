@@ -15,6 +15,21 @@ a {
 a:hover {
     color: rgb(58, 133, 202);
 }
+.next {
+    float:right;
+    font: 18px 'Bitstream Vera Sans Mono', sans-serif;
+    background-color:#4787ed;
+    padding:5px 10px;
+    color:#fff;
+    text-decoration:none;
+    border:1px solid #CCC;
+}
+.next:hover {
+    background-color:#000;
+    color:#fff;
+    text-decoration:none;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
@@ -57,10 +72,13 @@ header, nav a {
 nav a:hover {
     text-decoration: underline;
 }
+ul {
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 0;
+}
 nav ul {
     margin: 0;
-    padding: 0;
-    list-style: none;
 }
 nav ul li {
     display: inline;
@@ -80,9 +98,9 @@ aside p {
     font-style: italic;
     font-size: 15px;
 }
-#contact-area {
+#url-area {
     width: auto;
-    margin-top: 35px;
+    margin-top: 50px;
 }
 label {
     width:100px;
@@ -91,13 +109,13 @@ label {
     padding-top: 10px;
     margin-top: 20px;
 }
-#contact-area input:focus {
+#url-area input:focus {
     border: 1px solid #900;
 }
-#contact-area input.submit-button {
+/*#contact-area input.submit-button {
     width: 100px;
     padding: 5px;
     margin: 0px 0px 10px 0px;
     border: 1px solid #555;
     float: left;
-}
+}*/

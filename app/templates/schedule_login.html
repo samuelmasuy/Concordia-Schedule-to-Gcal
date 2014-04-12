@@ -3,12 +3,12 @@
     <h1>Hi!</h1>
     <p>This is an application to transform your Concordia Schedule into Google calendar events.</p>
 
-    <p>In order to start this process, you will need to consent that this application writes into your Google calendar. This part is done using Oauth2. OAuth allows you to share specific data with this application. For example, your calendar, while keeping your usernames, passwords, and other information private.<br>
-    Visit <a href="http://oauth.net/2/" target="_blank">Oauth2 website</a> for more information about this process.</p>
+    <p>In order to start this process, you will need to consent that this application writes into your Google calendar.<br>This part is done using Oauth2. OAuth allows you to share your calendar data, while keeping your usernames, passwords, and other information private.
+    </p>
     {% if isAnonymous %}
-        <a href="{{ url_for('login') }}">Google Oauth connect.</a>
+        <a class="next" href="{{ url_for('login') }}">Sign in with Google</a>
     {% else %}
-        <a href="{{ url_for('logout') }}">Log out.</a>
+        <a class="next" href="{{ url_for('logout') }}">Log out</a>
     {% endif %}
 
 {% endblock %}
