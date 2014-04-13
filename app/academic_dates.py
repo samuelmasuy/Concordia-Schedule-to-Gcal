@@ -35,6 +35,9 @@ from datetime import date
 
 
 def get_academic_dates(year, semester):
+    """returns 2 datetime.date instances
+    representing the start and ending days, of a
+    specific academic semester."""
     academic_dates = {
         '2013': {
             'winter': (date(2013, 1, 7),
