@@ -40,7 +40,7 @@ from apiclient.discovery import build
 from flask import session, redirect, url_for
 
 from app import app
-import eventParser
+from scrapper import CalSpider
 
 
 def get_flow(url):
@@ -83,8 +83,8 @@ def insert_event(url, new_cal):
     try:
         service = create_service()
         created_events = []
-        pre_soup = eventParser.make_beautiful_soup(url)
-        events = eventParser.get_events(pre_soup)
+        cs = CalSpider(url)
+        events = cs.to_dict()
         # Insert a secondary or insert the events in the user's main calendar.
         if new_cal == 'sec':
             calendar = cal_lookup(service)

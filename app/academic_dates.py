@@ -40,18 +40,18 @@ def get_academic_dates(year, semester):
     specific academic semester."""
     academic_dates = {
         '2013': {
-            'winter': (date(2013, 1, 7),
-                       date(2013, 4, 14))
+            'winter_1': (date(2013, 1, 7),
+                         date(2013, 4, 14))
         },
         '2014': {
             'summer_1': (date(2014, 5, 7),
                          date(2014, 6, 23)),
             'summer_2': (date(2014, 7, 7),
                          date(2014, 8, 19)),
-            'fall': (date(2014, 9, 2),
-                     date(2014, 12, 1)),
-            'winter': (date(2015, 1, 7),
-                       date(2015, 4, 14))
+            'fall_1': (date(2014, 9, 2),
+                       date(2014, 12, 1)),
+            'winter_1': (date(2015, 1, 7),
+                         date(2015, 4, 14))
         }
     }
     return academic_dates[year][semester]
