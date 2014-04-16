@@ -44,7 +44,7 @@ from academic_dates import get_academic_dates
 
 def get_events(pre_soup):
     """Entry point for the script."""
-    data = get_data(pre_soup)
+    data = scrap_data(pre_soup)
     dics = to_dict(data)
     return dics
 
@@ -83,7 +83,7 @@ def strip_and_find_semester(soup):
     return semester_names, year, soup
 
 
-def get_data(pre_soup):
+def scrap_data(pre_soup):
     """Return a list of all courses formatted from the html file."""
     term, year, soup = strip_and_find_semester(pre_soup)
     tables = soup.findAll('table')
@@ -101,7 +101,6 @@ def get_data(pre_soup):
             if row != []:
                 data.append(row)
         semester = term[i % 2]
-        print data
         data = parse_data(year, semester, data, buildings)
         courses.append(data)
     return courses
@@ -123,7 +122,7 @@ def parse_data(year, semester, data, buildings):
         name_course = (course[2] + " " + course[3].split(" / ")[0])
         # Group same course together.
         result, seen = same_course(name_course, seen, i + 1)
-        # Make the title for an event; course + number + location.
+        # Make the title for an event; course + campus + location.
         row.append(result[1] + " " + course[6] + " " + course[5][:-1])
         # Get type of course; Lecture, tutorial or labs.
         row.append(course[4][:-1])
