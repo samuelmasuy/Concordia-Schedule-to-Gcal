@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a web application that converts your University(Concordia) schedule to recurring Google calendar events, it uses the micro-framework [Flask][fl].
+This is a web application that converts your University (Concordia) schedule to recurring Google calendar events, it uses the micro-framework [Flask][fl].
 When you input the url of you schedule, you have the option to chose if you would like to create a secondary calendar.
 This app also parses <http://www.concordia.ca/maps/sgw-campus.html> and <http://www.concordia.ca/maps/loyola-campus.html> to get each possible physical location on the two campus of Concordia.
 
@@ -14,7 +14,7 @@ use `pip install -r requirements.txt` to install the required modules.
 
 ## Configuration file
 
-Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. This application also needs to have the Google calendar scope to be able to operate.
+Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. Then change its name to config.py.
 
 
 ## Running
