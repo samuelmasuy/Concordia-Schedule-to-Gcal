@@ -48,7 +48,7 @@ def make_beatiful_soup(url):
 
 
 def main():
-    path = join("..", "app", "html_schedules_debug")
+    path = "html_schedules_debug"
     testurls = [join(path, f) for f in listdir(path) if isfile(join(path, f))]
     intermediate_time = time.time()
     for i, url in enumerate(testurls):
