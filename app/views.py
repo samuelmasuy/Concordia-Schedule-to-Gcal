@@ -29,7 +29,8 @@ from flask import (render_template, session, url_for,
 from forms import InputUrlForm
 
 from app import app
-from calendar_controller import insert_event, rollback, get_flow
+from scheduletogcal.calendar_controller import (
+    insert_event, rollback, get_flow)
 
 
 @app.route('/login')
