@@ -23,8 +23,8 @@
 #  ===========================================================================
 # -*- coding: utf-8 -*-
 """
-    Scrapper.
-    ~~~~~~~~~
+    Scraper.
+    ~~~~~~~~
 
     Parses the data from a given Concordia schedule url.
 
@@ -32,7 +32,6 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 from lxml import html
-# import requests
 import urllib2
 import re
 from datetime import datetime, time
@@ -55,11 +54,11 @@ class Course():
         self.campus = None
         self.professor = None
         self.term = None
-        self.year = None
-        self.colorid = None
+        self.year = 0
+        self.colorid = 0
         self.location = None
 
-    def format_data(self):
+    def format_data(self, buildings):
         """This function returns as needed."""
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
@@ -68,6 +67,8 @@ class Course():
                                           self.datetime,
                                           re.findall(r"[\dd']+", self.time))
 
+        # Get physical location of where the course is given.
+        self.location = self.set_location(self.room, buildings)
         # Make the title for an event; course + number + location.
         self.summary = self.summary + " " + self.campus + " " + self.room[:-1]
         # Get type of course; Lecture, tutorial or labs.
@@ -102,20 +103,28 @@ class Course():
         return [str(days_of_week_gen[day_of_the_week.lower()]), start_datetime,
                 end_datetime, last_day_semester.strftime("%Y%m%d")]
 
+    def set_location(self, room, buildings):
+        """Set the location where a certain course is taking place."""
+        if room == '--':
+            return "Concordia University, Montreal, QC"
+        else:
+            building_initial = room[:-1].split("-")[0]
+            return buildings[building_initial]
 
-class CalSpider():
+
+class CalScraper():
 
     def __init__(self, url):
         self.response = urllib2.urlopen(url).read()
+        self.buildings = get_buildings_location()
 
     def parse(self):
         """Return a list of all courses formatted from the html file."""
         tree = html.fromstring(self.response)
         paras = tree.xpath('//p[contains(@class, "cusisheaderdata")]')
 
-        header = paras[0].text.split(" ")
-        term = header[0].lower()
-        # Only take the year once (in case of 2 terms in one semester).
+        header = paras[0].text.lower().split(" ")
+        term = header[0]
         year = header[2]
 
         for p in paras:
@@ -154,7 +163,7 @@ class CalSpider():
                 course.professor = row[7].text
                 course.term = term
                 course.year = year
-                course.format_data()
+                course.format_data(self.buildings)
                 course_term.append(course)
             # Make sure to not to have same classes considered as similar.
             course_term = self.recurent_event_factor(course_term)
@@ -189,26 +198,14 @@ class CalSpider():
             result.append(item)
         return result
 
-    def set_location(self, course, buildings):
-        """Set the location where a certain course is taking place."""
-        if course.room == '--':
-            course.location = "Concordia University, Montreal, QC"
-        else:
-            building_initial = course.room[:-1].split("-")[0]
-            course.location = buildings[building_initial]
-
     def to_dict(self):
         """This function takes all the data parsed and returns a dictionary
         with all formated data needed to transmit to Google calendar."""
         courses = self.parse()
-        buildings = get_buildings_location()
 
         entries = []
         for t in courses:
             for c in t:
-                # Get physical location of where the course is given.
-                self.set_location(c, buildings)
-
                 entry = dict()
                 entry["summary"] = c.summary
                 # type of class, its section and the professor that gives it.
