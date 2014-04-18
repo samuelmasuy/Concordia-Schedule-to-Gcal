@@ -140,6 +140,7 @@ class CalSpider():
             term = (header[0].lower() + "_" + str(j + 1))
             for i, row in enumerate(rows):
                 course = Course()
+                # Course name ex: Comp 249
                 course_name = (row[2].text + " " + row[3].text.split(" / ")[0])
                 # Group same course together.
                 result, seen = self.same_course(course_name, seen, i + 1)
@@ -170,8 +171,9 @@ class CalSpider():
         return result, seen
 
     def recurent_event_factor(self, seq):
-        """Allows to gather course together if they are the same type i.e.
-        lectures and tutorials."""
+        """Find the course that are the same type i.e.
+        lectures and tutorials, and append the first occurence
+        the day(s) of the next occurences."""
         seen_type = {}
         result = []
         for item in seq:
@@ -214,14 +216,19 @@ class CalSpider():
                                         (c.section, c.professor))
                 entry["location"] = c.location
                 entry["colorId"] = c.colorid
+                # Date of the first course of the year and time when
+                # the class begins.
                 start_dic = dict()
                 entry["start"] = start_dic
                 start_dic["dateTime"] = c.datetime[1]
                 start_dic["timeZone"] = "America/Montreal"
+                # Date of the first course of the year and time when
+                # the class ends.
                 end_dic = dict()
                 entry["end"] = end_dic
                 end_dic["dateTime"] = c.datetime[2]
                 end_dic["timeZone"] = "America/Montreal"
+                # Repeat events weekly until the end of the academic year.
                 entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
                                        (c.datetime[3], c.datetime[0])]
                 entries.append(entry)
