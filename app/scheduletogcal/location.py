@@ -34,42 +34,35 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 import urllib2
-
-from bs4 import BeautifulSoup
-
-
-sgw = "http://www.concordia.ca/maps/sgw-campus.html"
-loy = "http://www.concordia.ca/maps/loyola-campus.html"
+from lxml import html
 
 
-def make_beautiful_soup(url):
-    """Open and read URL and turn it into a BeautifulSoup Object."""
+def make_tree(url):
+    """Open and read URL and turn it into a lxml tree."""
     response = urllib2.urlopen(url).read()
-    return BeautifulSoup(response, "lxml")
+    return html.fromstring(response)
+
+
+def parse(url):
+    campus_buildings = dict()
+    tree = make_tree(url)
+    # Find all the links that contain the mapping of the building
+    # initial and its adress.
+    links = tree.xpath('//a[contains(@class, "cc")]')
+
+    for link in links:
+        address = link.xpath("@data-content")[0] + ' Montreal, QC'
+        campus_buildings[link.text] = address
+    return campus_buildings
 
 
 def get_buildings_location():
     """Returns a dictionary of all the buildings' address associated
     with their abbreviations."""
-    # Make BeautifulSoup object out of the 2 campus urls.
-    soup_sgw = make_beautiful_soup(sgw)
-    soup_loy = make_beautiful_soup(loy)
-
-    # Find all the data that matter for us.
-    links_sgw = soup_sgw.find_all(attrs={'class': 'acc'})
-    links_loy = soup_loy.find_all(attrs={'class': 'acc'})
-
-    # Get data for SGW Campus.
-    build_sgw = dict()
-    for link in links_sgw:
-        build_sgw[link.text] = (link['data-content'] + ' Montreal, QC')
-    # Get data for Loyola Campus.
-    build_loy = dict()
-    for link in links_loy:
-        build_loy[link.text] = (link['data-content'] + ' Montreal, QC')
+    SGW = "http://www.concordia.ca/maps/sgw-campus.html"
+    LOY = "http://www.concordia.ca/maps/loyola-campus.html"
 
     # 'Add' one dictionary to the other.
-    buildings_concordia = dict(build_sgw)
-    buildings_concordia.update(build_loy)
-
+    buildings_concordia = parse(SGW)
+    buildings_concordia.update(parse(LOY))
     return buildings_concordia

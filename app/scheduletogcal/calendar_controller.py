@@ -81,6 +81,7 @@ def insert_calendar(service):
 def insert_event(url, new_cal):
     """ Insert events in the user calendar. """
     try:
+        session['new_cal'] = 'no_new_sec'
         service = create_service()
         created_events = []
         cs = CalScraper(url)
