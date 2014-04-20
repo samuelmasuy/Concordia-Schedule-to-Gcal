@@ -4,7 +4,6 @@ Jinja2==2.7.2
 MarkupSafe==0.18
 WTForms==1.0.5
 Werkzeug==0.9.4
-beautifulsoup4==4.3.2
 google-api-python-client==1.2
 httplib2==0.8
 itsdangerous==0.23
