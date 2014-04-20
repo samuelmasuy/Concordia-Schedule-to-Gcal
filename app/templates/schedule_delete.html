@@ -2,7 +2,7 @@
 {% block content %}
     <h4>All the events have been deleted!</h4>
     {% if cal != 'primary' %}
-        <p>{{ cal }} has also been deleted!</p>
+        <p>Your secondary calendar has also been deleted!</p>
         <p><a href="{{ url_for('logout') }}">logout</a></p>
     {% endif %}
 {% endblock %}
