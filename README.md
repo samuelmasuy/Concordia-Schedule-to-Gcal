@@ -3,18 +3,18 @@
 ## Description
 
 This is a web application that converts your University (Concordia) schedule to recurring Google calendar events, it uses the micro-framework [Flask][fl].
-When you input the url of you schedule, you have the option to chose if you would like to create a secondary calendar.
-This app also parses <http://www.concordia.ca/maps/sgw-campus.html> and <http://www.concordia.ca/maps/loyola-campus.html> to get each possible physical location on the two campus of Concordia.
+The app parses the academic schedule provided on the website of MyConcordia with the help of lxml using XPath.
+It also parses <http://www.concordia.ca/maps/sgw-campus.html> and <http://www.concordia.ca/maps/loyola-campus.html> to get each possible physical location on the two campuses of Concordia.
 
 ## Installation
 
-I strongly suggest to create a [virtualenv][ve] for this project.
-Providing you have pip installed on your machine,
+I strongly suggest you to create a [virtualenv][ve] for this project.
+Then, providing you have pip installed on your machine,
 use `pip install -r requirements.txt` to install the required modules.
 
 ## Configuration file
 
-Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. Then change its name to config.py.
+Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. Then change the file name to config.py.
 
 
 ## Running
@@ -22,13 +22,12 @@ Make sure to modify appropriately [config_example.py](/config_example.py), with 
 ```bash
     python run.py
 ```
-will start a Flask server locally.
+will start a Flask server locally. You can now go to http://localhost:5000/ to see the website.
 
 ## Contribute
 
 Found a bug? Have a good idea for improving this app?
-If you'd like to contribute or extend this project to another area where Google calendar recurring events would be helpful to have:
-
+If you'd like to contribute or extend this project:
 1. Clone your fork.
 1. Create a branch to contain your change.
 1. Hack!
