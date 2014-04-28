@@ -33,13 +33,13 @@
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
 """
-import urllib2
+import requests
 from lxml import html
 
 
 def make_tree(url):
     """Open and read URL and turn it into a lxml tree."""
-    response = urllib2.urlopen(url).read()
+    response = requests.get(url).read()
     return html.fromstring(response)
 
 

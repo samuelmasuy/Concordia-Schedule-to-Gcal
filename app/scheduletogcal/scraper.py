@@ -32,7 +32,7 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 from lxml import html
-import urllib2
+import requests
 import re
 from datetime import datetime, time
 from dateutil import relativedelta as rdelta
@@ -59,7 +59,7 @@ class Course():
         self.location = None
 
     def format_data(self, buildings):
-        """This function returns as needed."""
+        """This basically format the data as needed."""
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
         self.datetime = self.format_dates(self.year,
@@ -115,7 +115,7 @@ class Course():
 class CalScraper():
 
     def __init__(self, url):
-        self.response = urllib2.urlopen(url).read()
+        self.response = requests.get(url).text
         self.buildings = get_buildings_location()
 
     def parse(self):
@@ -165,7 +165,7 @@ class CalScraper():
                 course.year = year
                 course.format_data(self.buildings)
                 course_term.append(course)
-            # Make sure to not to have same classes considered as similar.
+            # Make sure to not to have 2 instance of the same course.
             course_term = self.recurent_event_factor(course_term)
             courses.append(course_term)
         return courses
