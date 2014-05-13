@@ -28,6 +28,7 @@ will start a Flask server locally. You can now go to http://localhost:5000/ to s
 
 Found a bug? Have a good idea for improving this app?
 If you'd like to contribute or extend this project:
+
 1. Clone your fork.
 1. Create a branch to contain your change.
 1. Hack!
