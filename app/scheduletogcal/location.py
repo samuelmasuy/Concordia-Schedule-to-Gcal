@@ -39,7 +39,7 @@ from lxml import html
 
 def make_tree(url):
     """Open and read URL and turn it into a lxml tree."""
-    response = requests.get(url).read()
+    response = requests.get(url).text
     return html.fromstring(response)
 
 

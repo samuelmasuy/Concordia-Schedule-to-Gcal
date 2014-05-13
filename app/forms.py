@@ -46,6 +46,7 @@ class InputUrlForm(Form):
             "<a href='http://psis.concordia.ca/personalschedule/login.asp'>" +
             "MyConcordia portal.</a> and paste the url of your schedule."]
         if not Form.validate(self):
+            self.errors['url'] = "not validated"
             return False
         try:
             urllib2.urlopen(self.url.data, timeout=1)
