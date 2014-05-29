@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #  ===========================================================================
 #
 #  Copyright (C) 2014 Samuel Masuy. All rights reserved.
@@ -21,7 +22,6 @@
 #  samuel.masuy@gmail.com
 #
 #  ===========================================================================
-# -*- coding: utf-8 -*-
 """
     Calendar controller.
     ~~~~~~~~~~~~~~~~~~~
@@ -40,7 +40,7 @@ from apiclient.discovery import build
 from flask import session, redirect, url_for
 
 from app import app
-from scraper import CalScraper
+from scraper import ScheduleScraper
 
 
 def get_flow(url):
@@ -84,7 +84,7 @@ def insert_event(url, new_cal):
         session['new_cal'] = 'no_new_sec'
         service = create_service()
         created_events = []
-        cs = CalScraper(url)
+        cs = ScheduleScraper(url)
         events = cs.to_dict()
         # Insert a secondary or insert the events in the user's main calendar.
         if new_cal == 'sec':
