@@ -26,7 +26,8 @@
     Course.
     ~~~~~~~
 
-    TO-DO.
+    Represents a course, its characteristics are also being modified,
+    such as the dates, and location.
 
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
