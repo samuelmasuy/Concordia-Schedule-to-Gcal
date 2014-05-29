@@ -1,4 +1,4 @@
-# Concordia schedule to Google calendar.
+# Concordia schedule to Google cal.
 
 ## Description
 
