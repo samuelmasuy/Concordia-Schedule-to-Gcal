@@ -13,7 +13,7 @@ def make_url_list(base_url):
     """Make a list of the url pages where the academic events are."""
     urls = []
     # there are 15 events per page
-    for i in range(0, 100, 15):
+    for i in xrange(0, 100, 15):
         url = base_url + str(i)
         urls.append(url)
     return urls
