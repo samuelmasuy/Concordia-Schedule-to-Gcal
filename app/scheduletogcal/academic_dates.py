@@ -37,7 +37,7 @@
 """
 from datetime import date
 
-academic_dates = {
+_ACADEMIC_DATES = {
     "summer_4A": {
         "date": (date(2014, 5, 7), date(2014, 6, 23)),
         "withdraw": date(2014, 6, 4)
@@ -80,4 +80,4 @@ academic_dates = {
 def get_academic_dates(semester):
     """returns 2 datetime.date instances representing the start
     and ending days, of a specific academic semester."""
-    return academic_dates[semester]['date']
+    return _ACADEMIC_DATES[semester]['date']

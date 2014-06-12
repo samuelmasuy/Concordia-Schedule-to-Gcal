@@ -32,7 +32,7 @@
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
 """
-import re
+from re import findall
 from datetime import datetime, time
 from dateutil import relativedelta as rdelta
 
@@ -54,12 +54,12 @@ class Course():
         self.location = None
 
     def format_data(self, buildings):
-        """This basically format the data as needed."""
+        """Formats the data as needed."""
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
         self.datetime = self.format_dates(self.term,
                                           self.datetime,
-                                          re.findall(r"[\dd']+", self.time))
+                                          findall(r"[\dd']+", self.time))
 
         # Get physical location of where the course is given.
         self.location = self.set_location(self.room, buildings)
@@ -101,5 +101,4 @@ class Course():
         if room == '--':
             return "Concordia University, Montreal, QC"
         else:
-            building_initial = room[:-1].split("-")[0]
-            return buildings[building_initial]
+            return buildings[room[:-1].split("-")[0]]
