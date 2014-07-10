@@ -47,7 +47,6 @@ def logout():
         session.pop('credentials', None)
         session.pop('cal', None)
         session.pop('events', None)
-        # session.pop('new_cal', None)
         return render_template('schedule_logout.html')
     else:
         return redirect(url_for('schedule_login'))
@@ -131,7 +130,6 @@ def schedule_delete():
             return abort(500)
 
         events_to_delete = session['events']
-        # calendar_to_delete = session['new_cal']
         rollback(events_to_delete, cal)
 
         session.pop('cal', None)

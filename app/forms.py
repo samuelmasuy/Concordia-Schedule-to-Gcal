@@ -25,20 +25,12 @@
 import urllib2
 
 from flask.ext.wtf import Form
-# from wtforms.fields import RadioField
 from wtforms.validators import Required
 from wtforms.fields.html5 import URLField
 
 
 class InputUrlForm(Form):
-    # sec_label = 'Create a new secondary Calendar: "Schedule Concordia" or' \
-    #     ' append the events to your existing "Schedule Concordia" secondary' \
-    #     ' Calendar.'
-    # prim_label = 'Append the events to your primary calendar.'
     url = URLField('url', validators=[Required()])
-    # cal_id = RadioField('cal_id',
-    #                     choices=[('sec', sec_label), ('prim', prim_label)],
-    #                     default='sec')
 
     def validate(self):
         url_error = [
