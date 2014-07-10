@@ -47,7 +47,7 @@ def logout():
         session.pop('credentials', None)
         session.pop('cal', None)
         session.pop('events', None)
-        session.pop('new_cal', None)
+        # session.pop('new_cal', None)
         return render_template('schedule_logout.html')
     else:
         return redirect(url_for('schedule_login'))
@@ -99,9 +99,8 @@ def schedule_index():
     if form.validate_on_submit():
         # Save what is in the field.
         url = form.url.data
-        new_cal = form.cal_id.data
         # Insert events.
-        cal, events = insert_event(url, new_cal)
+        cal, events = insert_event(url)
         # Save events and calendar created in case the user wants to rollback.
         session['events'] = events
         session['cal'] = cal
@@ -129,15 +128,15 @@ def schedule_delete():
     try:
         cal = session['cal']
         if session['cal'] is None:
-            return abort(404)
+            return abort(500)
 
         events_to_delete = session['events']
-        calendar_to_delete = session['new_cal']
-        rollback(events_to_delete, calendar_to_delete, cal)
+        # calendar_to_delete = session['new_cal']
+        rollback(events_to_delete, cal)
 
         session.pop('cal', None)
         session.pop('events', None)
         return render_template('schedule_delete.html',
                                title="Schedule App", cal=cal)
     except KeyError:
-        return abort(404)
+        return abort(500)

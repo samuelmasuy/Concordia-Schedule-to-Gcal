@@ -163,4 +163,4 @@ class ScheduleScraper():
                 entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
                                        (c.datetime[3], c.datetime[0])]
                 entries.append(entry)
-        return entries
+        return entries, c.term
