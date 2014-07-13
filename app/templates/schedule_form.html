@@ -1,14 +1,13 @@
-<div id="url-area">
-    <form action="" method="post" name="url">
+<form action="" method="post" name="url" id="url_form">
         {{form.hidden_tag()}}
         <label for="URL">Url of your schedule:</label>
-        {{ form.url(size = 100, maxlength = 260) }}<br>
-        <input class="next" type="submit" value="Create Events"/>
-    </form>
-</div>
+        {{ form.url(size = 100, maxlength = 260) }}
+        <a class="next" href="javascript:{}" onclick="document.getElementById('url_form').submit(); return false;">Create Events</a>
+        <!-- <input class="next" type="submit" value="Create Events"/> -->
+</form>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class="flashes" style="margin-top: 50px;">
+    <ul class="flashes">
     {% for message in messages %}
       <li>{{ message | safe }}</li>
     {% endfor %}
