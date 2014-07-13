@@ -79,19 +79,26 @@ def insert_event(url):
     """ Insert events in the user calendar. """
     service = create_service()
     created_events_id = []
+
     cs = ScheduleScraper(url)
+    # Parse the schedule and get the events.
     events, term = cs.to_dict()
 
+    # Check if a secondary calendar for the schedule exists.
     calendar_id = cal_lookup_id(service)
+
     if calendar_id is None:
+        # Create a new secondary calendar.
         calendar_id = insert_calendar(service)
 
-    del_old_events(service, calendar_id, term)
+    else:
+        # Delete all the events during the semester concerned.
+        del_old_events(service, calendar_id, term)
 
-    for event in events:
-        created_event = service.events().insert(calendarId=calendar_id,
-                                                body=event).execute()
-        created_events_id.append(created_event['id'])
+    # Create all the events and get their ids.
+    created_events_id = [service.events().insert(calendarId=calendar_id,
+                                                 body=event).execute()['id']
+                         for event in events]
 
     return calendar_id, created_events_id
 
@@ -106,17 +113,22 @@ def cal_lookup_id(service):
 
 
 def del_old_events(service, cal_id, term):
-    """Finds same events id, if existant, in the calendar, in order to
-    sustain an eventual update."""
+    """Delete all the events previously created, in the secondary calendar,
+    in order to sustain an eventual update."""
     first_day, last_day = get_academic_dates(term)
+
+    # Get datetime range of the first week of the semester.
     dt_min = datetime.datetime(first_day.year, first_day.month, first_day.day)
     dt_max = dt_min + datetime.timedelta(days=8)
     dt_min = dt_min.isoformat() + "-04:00"
     dt_max = dt_max.isoformat() + "-04:00"
+    # Create a list of all the events we need to delete.
     old_events_list = service.events().list(calendarId=cal_id,
                                             timeMin=dt_min,
                                             timeMax=dt_max).execute()
     for old_event in old_events_list['items']:
+        # Make sure we delete the events that were created only by
+        # this application.
         if 'with professor' in old_event['description']:
             service.events().delete(calendarId=cal_id,
                                     eventId=old_event['id']).execute()
