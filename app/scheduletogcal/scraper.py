@@ -54,7 +54,6 @@ class ScheduleScraper():
             course_term = []
             seen = {}
             result = None
-            # term = header[0].lower()
             for i, row in enumerate(rows):
                 course = Course()
                 # Course name ex: Comp 249
@@ -101,19 +100,16 @@ class ScheduleScraper():
         """Find the course that are the same type i.e.
         lectures and tutorials, and append the first occurence
         the day(s) of the next occurences."""
-        seen_type = {}
+        values = set(map(lambda x:x.summary, seq))
+        newlist = [[y for y in seq if y.summary==x] for x in values]
         result = []
-        for item in seq:
-            marker = item.summary
-            if marker in seen_type:
-                to_add = item.datetime[0]
-                for course in result:
-                    if course.summary == marker:
-                        course.datetime[0] = ("%s,%s"
-                                              % (course.datetime[0], to_add))
-                continue
-            seen_type[marker] = 1
-            result.append(item)
+        for course in newlist:
+            first_course = min(course, key=lambda arr: arr.datetime[1])
+            first_date = first_course.datetime[0]
+            course.remove(first_course)
+            for i in course:
+                first_course.datetime[0] = first_date + "," + i.datetime[0]
+            result.append(first_course)
         return result
 
     def to_dict(self):
