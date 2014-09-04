@@ -16,7 +16,7 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 from re import findall
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from dateutil import relativedelta as rdelta
 
 from academic_dates import get_academic_dates
@@ -63,6 +63,7 @@ class Course():
 
         # First day of the semester
         first_day_semester, last_day_semester = get_academic_dates(semester)
+        last_day_semester = last_day_semester + timedelta(days=1)
 
         # Get first day of the academic year a specific course is given.
         r = rdelta.relativedelta(
