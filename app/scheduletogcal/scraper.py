@@ -24,8 +24,9 @@ from location import get_buildings_location
 class ScheduleScraper():
 
     def __init__(self, url):
-        self.response = requests.get(url).text
+        self.response = requests.get(url, verify=False).text
         self.buildings = get_buildings_location()
+        self.index_color = 0
 
     def parse(self):
         """Return a list of all courses formatted from the html file."""
@@ -54,12 +55,15 @@ class ScheduleScraper():
             course_term = []
             seen = {}
             result = None
-            for i, row in enumerate(rows):
+            for row in rows:
                 course = Course()
                 # Course name ex: Comp 249
                 course_name = (row[2].text + " " + row[3].text.split(" / ")[0])
                 # Group same course together.
-                result, seen = self.same_course(course_name, seen, i + 1)
+                result, seen = self.same_course(course_name,
+                                                seen,
+                                                self.index_color)
+                print result
                 course.colorid = result[0]
                 course.summary = result[1]
                 course.datetime = row[0].text
@@ -82,7 +86,7 @@ class ScheduleScraper():
 
     def which_summer_term(self, section_initial):
         map_section = (('4', 'A'), ('5', 'B'), ('6', 'C'), ('7', 'D'),
-                      ('8', 'E'), ('9', 'F'))
+                       ('8', 'E'), ('9', 'F'))
         for i, j in map_section:
             if section_initial == i or section_initial == j:
                 return "summer_" + i + j
@@ -92,8 +96,9 @@ class ScheduleScraper():
         if course in seen:
             result = [seen[course], course]
         else:
-            seen[course] = index
-            result = [index, course]
+            self.index_color += 1
+            seen[course] = self.index_color
+            result = [self.index_color, course]
         return result, seen
 
     def recurent_event_factor(self, seq):
