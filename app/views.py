@@ -45,8 +45,8 @@ def oauth2callback():
         except Exception:
             return redirect(url_for('schedule_login'))
 
-        c = credentials.to_json()
-        session['credentials'] = c
+        cred = credentials.to_json()
+        session['credentials'] = cred
     return redirect(url_for('schedule_index'))
 
 

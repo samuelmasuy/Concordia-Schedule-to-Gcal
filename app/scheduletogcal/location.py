@@ -27,6 +27,7 @@ def make_tree(url):
 
 
 def parse(url):
+    """Parse addresses of the university"""
     campus_buildings = dict()
     tree = make_tree(url)
     # Find all the links that contain the mapping of the building

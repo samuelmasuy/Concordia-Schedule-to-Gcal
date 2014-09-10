@@ -22,8 +22,8 @@ from dateutil import relativedelta as rdelta
 from academic_dates import get_academic_dates
 
 
-class Course():
-
+class Course(object):
+    """Define an university class"""
     def __init__(self):
         self.datetime = None
         self.time = None
@@ -40,12 +40,12 @@ class Course():
         """Formats the data as needed."""
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
-        self.datetime = self.format_dates(self.term,
-                                          self.datetime,
-                                          findall(r"[\dd']+", self.time))
+        self.datetime = format_dates(self.term,
+                                     self.datetime,
+                                     findall(r"[\dd']+", self.time))
 
         # Get physical location of where the course is given.
-        self.location = self.set_location(self.room, buildings)
+        self.location = set_location(self.room, buildings)
         # Make the title for an event; course + number + location.
         self.summary = self.summary + " " + self.campus + " " + self.room[:-1]
         # Get type of course; Lecture, tutorial or labs.
@@ -53,36 +53,38 @@ class Course():
         # Get the name of the professor who is teaching a certain course.
         self.professor = self.professor[:-1]
 
-    def format_dates(self, semester, day_of_the_week, hours):
-        """Return a list of the dates formatted to iso format."""
-        # Generator to associate each day of the week to its
-        # relativedelta type correspondent.
-        days_of_week_gen = dict(
-            zip('monday tuesday wednesday thursday friday'.split(),
-                (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
-        # First day of the semester
-        first_day_semester, last_day_semester = get_academic_dates(semester)
-        last_day_semester = last_day_semester + timedelta(days=1)
+def format_dates(semester, day_of_the_week, hours):
+    """Return a list of the dates formatted to iso format."""
+    # Generator to associate each day of the week to its
+    # relativedelta type correspondent.
+    days_of_week_gen = dict(
+        zip('monday tuesday wednesday thursday friday'.split(),
+            (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
-        # Get first day of the academic year a specific course is given.
-        r = rdelta.relativedelta(
-            weekday=days_of_week_gen[day_of_the_week.lower()])
-        day = first_day_semester + r
+    # First day of the semester
+    first_day_semester, last_day_semester = get_academic_dates(semester)
+    last_day_semester = last_day_semester + timedelta(days=1)
 
-        start_t = time(int(hours[0]), int(hours[1]))
-        end_t = time(int(hours[2]), int(hours[3]))
+    # Get first day of the academic year a specific course is given.
+    relative_day_add = rdelta.relativedelta(
+        weekday=days_of_week_gen[day_of_the_week.lower()])
+    day = first_day_semester + relative_day_add
 
-        # Get start_time and end_time by concatenating the previous result.
-        start_datetime = datetime.isoformat(datetime.combine(day, start_t))
-        end_datetime = datetime.isoformat(datetime.combine(day, end_t))
+    start_t = time(int(hours[0]), int(hours[1]))
+    end_t = time(int(hours[2]), int(hours[3]))
 
-        return [str(days_of_week_gen[day_of_the_week.lower()]), start_datetime,
-                end_datetime, last_day_semester.strftime("%Y%m%d")]
+    # Get start_time and end_time by concatenating the previous result.
+    start_datetime = datetime.isoformat(datetime.combine(day, start_t))
+    end_datetime = datetime.isoformat(datetime.combine(day, end_t))
 
-    def set_location(self, room, buildings):
-        """Set the location where a certain course is taking place."""
-        if room == '--':
-            return "Concordia University, Montreal, QC"
-        else:
-            return buildings[room[:-1].split("-")[0]]
+    return [str(days_of_week_gen[day_of_the_week.lower()]), start_datetime,
+            end_datetime, last_day_semester.strftime("%Y%m%d")]
+
+
+def set_location(room, buildings):
+    """Set the location where a certain course is taking place."""
+    if room == '--':
+        return "Concordia University, Montreal, QC"
+    else:
+        return buildings[room[:-1].split("-")[0]]

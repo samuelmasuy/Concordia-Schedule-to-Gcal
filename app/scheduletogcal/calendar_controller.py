@@ -98,7 +98,7 @@ def cal_lookup_id(service):
 def del_old_events(service, cal_id, term):
     """Delete all the events previously created, in the secondary calendar,
     in order to sustain an eventual update."""
-    first_day, last_day = get_academic_dates(term)
+    first_day, _ = get_academic_dates(term)
 
     # Get datetime range of the first week of the semester.
     dt_min = datetime.datetime(first_day.year, first_day.month, first_day.day)
