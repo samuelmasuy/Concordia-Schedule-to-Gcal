@@ -63,7 +63,6 @@ class ScheduleScraper():
                 result, seen = self.same_course(course_name,
                                                 seen,
                                                 self.index_color)
-                print result
                 course.colorid = result[0]
                 course.summary = result[1]
                 course.datetime = row[0].text
