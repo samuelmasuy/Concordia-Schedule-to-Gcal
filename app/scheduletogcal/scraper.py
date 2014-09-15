@@ -33,7 +33,7 @@ class ScheduleScraper(object):
         tree = html.fromstring(self.response)
         paras = tree.xpath('//p[contains(@class, "cusisheaderdata")]')
 
-        term = paras[0].text.lower().split(" ")[0]
+        term = paras[0].text.lower().split(' ')[0]
         is_summer = False
         for p in paras:
             # Remove unnecessary data
@@ -44,7 +44,7 @@ class ScheduleScraper(object):
             if len(p.text) > 15:
                 p.getparent().remove(p.xpath('following-sibling::table[1]')[0])
 
-        tables = tree.xpath("//table")
+        tables = tree.xpath('//table')
         courses = []
         for t in tables:
             td = t.xpath("td[contains(@class, 'cusistabledata')]")
@@ -58,7 +58,8 @@ class ScheduleScraper(object):
             for row in rows:
                 course = Course()
                 # Course name ex: Comp 249
-                course_name = (row[2].text + " " + row[3].text.split(" / ")[0])
+                course_name = ' '.join([row[2].text,
+                                        row[3].text.split(' / ')[0]])
                 # Group same course together.
                 result, seen = self.same_course(course_name, seen)
                 course.colorid = result[0]
@@ -71,7 +72,7 @@ class ScheduleScraper(object):
                 course.professor = row[7].text
                 if is_summer:
                     course.term = which_summer_term(
-                        course.section.split(" ")[1][0])
+                        course.section.split(' ')[1][0])
                 else:
                     course.term = term
                 course.format_data(self.buildings)
@@ -94,34 +95,36 @@ class ScheduleScraper(object):
     def to_dict(self):
         """This function takes all the data parsed and returns a dictionary
         with all formated data needed to transmit to Google calendar."""
-        courses = self.parse()
+        course_list = self.parse()
+        courses_term = course_list[0][0].term
         entries = []
-        for t in courses:
-            for c in t:
+        for courses in course_list:
+            for course in courses:
                 entry = dict()
-                entry["summary"] = c.summary
-                # type of class, its section and the professor that gives it.
-                entry["description"] = ("%s with professor: %s" %
-                                        (c.section, c.professor))
-                entry["location"] = c.location
-                entry["colorId"] = c.colorid
+                entry["summary"] = course.summary
+                # Type of class, its section and the professor that gives it.
+                entry["description"] = '{} with professor: {}'.format(
+                    course.section, course.professor)
+                entry["location"] = course.location
+                entry["colorId"] = course.colorid
                 # Date of the first course of the year and time when
                 # the class begins.
                 start_dic = dict()
                 entry["start"] = start_dic
-                start_dic["dateTime"] = c.datetime[1]
-                start_dic["timeZone"] = "America/Montreal"
+                start_dic["dateTime"] = course.datetime[1]
+                start_dic["timeZone"] = 'America/Montreal'
                 # Date of the first course of the year and time when
                 # the class ends.
                 end_dic = dict()
                 entry["end"] = end_dic
-                end_dic["dateTime"] = c.datetime[2]
-                end_dic["timeZone"] = "America/Montreal"
+                end_dic["dateTime"] = course.datetime[2]
+                end_dic["timeZone"] = 'America/Montreal'
                 # Repeat events weekly until the end of the academic year.
-                entry["recurrence"] = ["RRULE:FREQ=WEEKLY;UNTIL=%s;BYDAY=%s" %
-                                       (c.datetime[3], c.datetime[0])]
+                entry["recurrence"] = [
+                    'RRULE:FREQ=WEEKLY;UNTIL={};BYDAY={}'.format(
+                        course.datetime[3], course.datetime[0])]
                 entries.append(entry)
-        return entries, c.term
+        return entries, courses_term
 
 
 def which_summer_term(section_initial):
@@ -134,13 +137,12 @@ def which_summer_term(section_initial):
                    ('9', 'F'))
     for i, j in map_section:
         if section_initial == i or section_initial == j:
-            return "summer_" + i + j
+            return 'summer_{}{}'.format(i, j)
 
 
 def recurent_event_factor(seq):
-    """Find the course that are the same type i.e.
-    lectures and tutorials, and append the first occurence
-    the day(s) of the next occurences."""
+    """Find the course that are the same type i.e. lectures and tutorials,
+    and append the first occurence the day(s) of the next occurences."""
     # values = set(map(lambda x: x.summary, seq))
     values = set([x.summary for x in seq])
     newlist = [[y for y in seq if y.summary == x] for x in values]
@@ -150,6 +152,6 @@ def recurent_event_factor(seq):
         first_date = first_course.datetime[0]
         course.remove(first_course)
         for i in course:
-            first_course.datetime[0] = first_date + "," + i.datetime[0]
+            first_course.datetime[0] = ','.join([first_date, i.datetime[0]])
         result.append(first_course)
     return result
