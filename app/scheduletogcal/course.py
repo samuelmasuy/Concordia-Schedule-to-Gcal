@@ -47,7 +47,7 @@ class Course(object):
         # Get physical location of where the course is given.
         self.location = set_location(self.room, buildings)
         # Make the title for an event; course + number + location.
-        self.summary = ' '.join(self.summary, self.campus, self.room[:-1])
+        self.summary = ' '.join([self.summary, self.campus, self.room[:-1]])
         # Get type of course; Lecture, tutorial or labs.
         self.section = self.section[:-1]
         # Get the name of the professor who is teaching a certain course.
