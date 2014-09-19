@@ -15,7 +15,8 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 import httplib2
-import datetime
+from datetime import datetime, timedelta
+from pytz import timezone
 
 from oauth2client.client import OAuth2WebServerFlow, OAuth2Credentials
 from apiclient.discovery import build
@@ -25,6 +26,7 @@ from app import app
 from scraper import ScheduleScraper
 from academic_dates import get_academic_dates
 
+TIMEZONE = timezone("America/Montreal")
 
 def get_flow(url):
     scope = "https://www.googleapis.com/auth/calendar"
@@ -35,6 +37,7 @@ def get_flow(url):
 
 
 def create_service():
+    """Create a service to communicate with the Google API."""
     try:
         tokken = session['credentials']
     except KeyError:
@@ -63,9 +66,9 @@ def insert_event(url):
     service = create_service()
     created_events_id = []
 
-    cs = ScheduleScraper(url)
+    calendar_schedule = ScheduleScraper(url)
     # Parse the schedule and get the events.
-    events, term = cs.to_dict()
+    events, term = calendar_schedule.to_dict()
 
     # Check if a secondary calendar for the schedule exists.
     calendar_id = cal_lookup_id(service)
@@ -101,14 +104,15 @@ def del_old_events(service, cal_id, term):
     first_day, _ = get_academic_dates(term)
 
     # Get datetime range of the first week of the semester.
-    dt_min = datetime.datetime(first_day.year, first_day.month, first_day.day)
-    dt_max = dt_min + datetime.timedelta(days=8)
-    dt_min = dt_min.isoformat() + "-04:00"
-    dt_max = dt_max.isoformat() + "-04:00"
+    dt_min = datetime(first_day.year, first_day.month, first_day.day,
+                      tzinfo=TIMEZONE)
+    dt_max = dt_min + timedelta(days=8)
     # Create a list of all the events we need to delete.
-    old_events_list = service.events().list(calendarId=cal_id,
-                                            timeMin=dt_min,
-                                            timeMax=dt_max).execute()
+    old_events_list = service.events().list(
+        calendarId=cal_id,
+        timeMin=dt_min.isoformat(),
+        timeMax=dt_max.isorformat()).execute()
+
     for old_event in old_events_list['items']:
         # Make sure we delete the events that were created only by
         # this application.
