@@ -4,3 +4,5 @@ __pycache__/
 config.py
 calendar.dat
 calendar_playground.py
+.ipynb_checkpoints/
+academic_dates.ipynb
