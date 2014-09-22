@@ -127,24 +127,34 @@ def cal_lookup_id(service):
 def del_old_events(service, cal_id, term):
     """Delete all the events previously created, in the secondary calendar,
     in order to sustain an eventual update."""
-    first_day, _ = get_academic_dates(term)
+    semester_dates, _ = get_academic_dates(term)
+    first_day, last_day = semester_dates
+    last_day = last_day + timedelta(days=1)
 
     # Get datetime range of the first week of the semester.
     dt_min = datetime(first_day.year, first_day.month, first_day.day,
                       tzinfo=TIMEZONE)
-    dt_max = dt_min + timedelta(days=8)
+    dt_max = datetime(last_day.year, last_day.month, last_day.day,
+                      tzinfo=TIMEZONE)
+
     # Create a list of all the events we need to delete.
     old_events_list = service.events().list(
         calendarId=cal_id,
         timeMin=dt_min.isoformat(),
-        timeMax=dt_max.isorformat()).execute()
+        timeMax=dt_max.isoformat()).execute()
 
-    for old_event in old_events_list['items']:
-        # Make sure we delete the events that were created only by
-        # this application.
-        if 'with professor' in old_event['description']:
+    for old_event_id in old_event_list:
+        old_recur_events.append(
+            service.events().instances(calendarId=cal_id,
+                                       eventId=old_event_id,
+                                       timeMin=dt_min.isoformat(),
+                                       timeMax=dt_max.isoformat()).execute()
+
+    for summ in old_recur_events:
+        for ite in summ['items']:
             service.events().delete(calendarId=cal_id,
-                                    eventId=old_event['id']).execute()
+                                    eventId=ite['id']).execute()
+
 
 
 def rollback(created_events, calendar):
