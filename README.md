@@ -14,7 +14,7 @@ use `pip install -r requirements.txt` to install the required modules.
 
 ## Configuration file
 
-Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. Then change the file name to config.py.
+Make sure to modify appropriately [config_example.py](/config_example.py), with the CLIENT_ID and CLIENT_SECRET of the app you will create in the [the Google API console][gapi]. Then change the file name to *config.py*.
 
 
 ## Running
