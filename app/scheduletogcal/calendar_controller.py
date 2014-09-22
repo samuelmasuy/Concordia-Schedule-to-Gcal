@@ -28,6 +28,7 @@ from academic_dates import get_academic_dates
 
 TIMEZONE = timezone("America/Montreal")
 
+
 def get_flow(url):
     scope = "https://www.googleapis.com/auth/calendar"
     return OAuth2WebServerFlow(client_id=app.config['CLIENT_ID'],
@@ -143,18 +144,18 @@ def del_old_events(service, cal_id, term):
         timeMin=dt_min.isoformat(),
         timeMax=dt_max.isoformat()).execute()
 
-    for old_event_id in old_event_list:
+    old_recur_events = []
+    for old_event_id in old_events_list:
         old_recur_events.append(
             service.events().instances(calendarId=cal_id,
                                        eventId=old_event_id,
                                        timeMin=dt_min.isoformat(),
-                                       timeMax=dt_max.isoformat()).execute()
+                                       timeMax=dt_max.isoformat()).execute())
 
     for summ in old_recur_events:
         for ite in summ['items']:
             service.events().delete(calendarId=cal_id,
                                     eventId=ite['id']).execute()
-
 
 
 def rollback(created_events, calendar):
