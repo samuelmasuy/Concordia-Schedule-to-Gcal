@@ -63,7 +63,8 @@ def format_dates(semester, day_of_the_week, hours):
             (getattr(rdelta, d) for d in 'MO TU WE TH FR'.split())))
 
     # First day of the semester
-    first_day_semester, last_day_semester = get_academic_dates(semester)
+    semester_dates, _ = get_academic_dates(semester)
+    first_day_semester, last_day_semester = semester_dates
     last_day_semester = last_day_semester + timedelta(days=1)
 
     # Get first day of the academic year a specific course is given.
