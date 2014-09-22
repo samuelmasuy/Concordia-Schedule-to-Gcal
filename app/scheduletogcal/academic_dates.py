@@ -20,7 +20,7 @@
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 from lxml import html
@@ -34,6 +34,13 @@ def make_tree(url, arg=''):
     """Create a lxml tree from a url with possibly some arguments."""
     response = requests.get('{0}{1}'.format(url, arg)).text
     return html.fromstring(response)
+
+
+def expand_date_range(current, last):
+    """Generate all the dates in between a range of dates."""
+    while not current > last:
+        yield current
+        current += timedelta(days=1)
 
 
 def get_general_holidays():
@@ -54,6 +61,13 @@ def get_general_holidays():
         h_dates.append(
             datetime.strptime(' '.join([month_year, day]), '%B %Y %d'))
     return h_dates
+
+
+def christmas(academic_dates):
+    """Expand the Christmas holidays."""
+    return list(expand_date_range(
+        academic_dates['fall']['date'][1] + timedelta(days=1),
+        academic_dates['winter']['date'][0] - timedelta(days=1)))
 
 
 def spring_break():
