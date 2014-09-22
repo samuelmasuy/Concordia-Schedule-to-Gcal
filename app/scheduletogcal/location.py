@@ -46,6 +46,7 @@ def parse(url):
 def get_buildings_location():
     """Returns a dictionary of all the buildings' address associated
     with their abbreviations."""
+    buildings_concordia = None
     SGW = 'http://www.concordia.ca/maps/sgw-campus.html'
     LOY = 'http://www.concordia.ca/maps/loyola-campus.html'
     file_name = 'location.json'
