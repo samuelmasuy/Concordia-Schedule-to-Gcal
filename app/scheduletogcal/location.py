@@ -17,7 +17,7 @@
     :license: GNU version 2.0, see LICENSE for more details.
 """
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from os import path
 
 import requests
