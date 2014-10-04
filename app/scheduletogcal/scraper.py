@@ -144,8 +144,9 @@ def recurent_event_factor(seq):
     """Find the course that are the same type i.e. lectures and tutorials,
     and append the first occurence the day(s) of the next occurences."""
     # values = set(map(lambda x: x.summary, seq))
-    values = set([x.summary for x in seq])
-    newlist = [[y for y in seq if y.summary == x] for x in values]
+    values = set([(x.summary, x.section) for x in seq])
+    newlist = [[y for y in seq if y.summary == x and y.section == z]
+               for x, z in values]
     result = []
     for course in newlist:
         first_course = min(course, key=lambda arr: arr.datetime[1])
