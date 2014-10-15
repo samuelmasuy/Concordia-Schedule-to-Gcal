@@ -49,7 +49,7 @@ def get_buildings_location():
     buildings_concordia = None
     SGW = 'http://www.concordia.ca/maps/sgw-campus.html'
     LOY = 'http://www.concordia.ca/maps/loyola-campus.html'
-    file_name = 'scheduletogcal/location.json'
+    file_name = 'location.json'
 
     if path.exists(file_name):
         two_months_ago = datetime.now() - timedelta(days=60)
