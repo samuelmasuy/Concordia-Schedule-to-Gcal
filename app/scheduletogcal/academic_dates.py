@@ -186,9 +186,7 @@ def get_academic_dates(semester):
     and ending days, of a specific academic semester
     Also returns the hollidays occuring during that semester."""
     academic_dates = None
-    file_name = 'academic_dates.json'
-    heroku_file_name = ('../../../../heroku/homepage/app/'
-                        'scheduletogcal/academic_dates.json')
+    file_name = 'scheduletogcal/academic_dates.json'
 
     if path.exists(file_name):
         two_semesters_ago = datetime.now() - timedelta(days=240)
@@ -201,8 +199,6 @@ def get_academic_dates(semester):
         academic_dates = act()
         with open(file_name, 'w') as fip:
             json.dump(academic_dates, fip, default=json_util.default)
-        with open(heroku_file_name, 'w') as hip:
-            json.dumps(academic_dates, hip, default=json_util.default)
 
     dates = academic_dates[semester]['date']
     dates = [old_date.date() for old_date in dates]
