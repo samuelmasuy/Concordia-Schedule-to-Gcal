@@ -186,7 +186,7 @@ def get_academic_dates(semester):
     and ending days, of a specific academic semester
     Also returns the hollidays occuring during that semester."""
     academic_dates = None
-    file_name = 'academic_dates.json'
+    file_name = 'app/scheduletogcal/academic_dates.json'
 
     if path.exists(file_name):
         two_semesters_ago = datetime.now() - timedelta(days=240)
