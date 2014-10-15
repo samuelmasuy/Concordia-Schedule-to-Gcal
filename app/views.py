@@ -50,12 +50,6 @@ def oauth2callback():
     return redirect(url_for('schedule_index'))
 
 
-def flash_errors(form):
-    for field, errors in form.errors.items():
-        flash(u"Error in the %s field - %s" % (
-            getattr(form, field).label.text, errors))
-
-
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404

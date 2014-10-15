@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  console.log("ready!");
   $('grab_url').show()
   $('#spinner').hide();
   $('#thank_you').hide();
@@ -44,8 +43,6 @@ $(document).ready(function() {
         $('#spinner').hide();
       },
       success: function(results) {
-          //console.log(results);
-          console.log("done")
           $('#grab_url').hide();
           $('#result').show();
           $('#thank_you').show();

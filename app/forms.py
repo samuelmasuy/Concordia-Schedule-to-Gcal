@@ -9,7 +9,6 @@ import urllib2
 
 from flask import request
 from flask.ext.wtf import Form
-from wtforms.validators import Required
 from wtforms.fields.html5 import URLField
 
 
