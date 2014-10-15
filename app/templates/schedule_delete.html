@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h4>All the events have been deleted!</h4>
+    <h2>All the events have been deleted!</h2>
     {% if cal != 'primary' %}
-        <p>Your secondary calendar has also been deleted!</p>
         <p><a href="{{ url_for('logout') }}">logout</a></p>
     {% endif %}
 {% endblock %}
