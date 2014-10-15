@@ -78,11 +78,9 @@ def schedule_index():
     events = []
     # When the form is validated, see forms.py for validation.
     if request.method == 'POST':
-        print "posted"
         if form.validate():
             # Save what is in the field.
-            print "hello"
-            url_response = request.form.get('url')
+            url_response = form.url_response
             # Insert events.
             cal, events = insert_event(url_response)
             # Save events and calendar created in case the user wants to rollback.
@@ -90,7 +88,6 @@ def schedule_index():
             session['cal'] = cal
             return render_template('schedule_result.html', tilte="Schedule App")
         else:
-            print "error"
             # When the form is not valid, render appropriate message.
             response = jsonify(message=str(form.errors['url']))
             response.status_code = 400
