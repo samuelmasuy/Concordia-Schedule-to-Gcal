@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% if request.path.startswith('/schedule') %}
-    <title>Schedule App</title>
-    <link rel="shortcut icon" href="./static/img/sg.png">
-    {% else %}
-    <link rel="shortcut icon" href="./static/img/favicon.ico">
-    <title>Samuel's page.</title>
-    {% endif %}
-    <link href="http://bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
-  </head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if request.path.startswith('/schedule') %}
+  <title>Schedule App</title>
+  <link rel="shortcut icon" href="./static/img/sg.ico">
+  {% else %}
+  <link rel="shortcut icon" href="./static/img/favicon.ico">
+  <title>Samuel's page.</title>
+  {% endif %}
+  <link rel="stylesheet" href="./static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link href="http://bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/main.css" type="text/css" media="screen" charset="utf-8">
+ </head>
   <body>
-    <div class="container">
-        <div class="navbar navbar-default">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Samuel Masuy</a>
-          </div>
-          <div class="navbar-collapse collapse navbar-responsive-collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="{{ url_for('schedule_login') }}">Schedule App</a>
-              </li>
-            </ul>
-          </div>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">Samuel Masuy</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('schedule_index') }}">Schedule App</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="page-header"></div>
       <div class="jumbotron">
         {% block content %}{% endblock %}
       </div>
-    {% block including %}{% endblock %}
-    </div>
+      {% block including %}{% endblock %}
+      <script src="./static/bower_components/jquery/dist/jquery.min.js"></script>
+      <script src="./static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <footer>
-        <div class="container">
-                <p>
-                Content licensed under the Creative Commons License.
-                </p>
-                <p>
-                Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
-                <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
-                </p>
-        </div>
+      <div class="container">
+        <p>
+          Content licensed under the Creative Commons License.
+        </p>
+        <p>
+          Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
+          <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
+        </p>
+      </div>
       </footer>
+    </div>
   </body>
 </html>
