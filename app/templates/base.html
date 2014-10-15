@@ -8,34 +8,43 @@
     <link rel="shortcut icon" href="./static/img/favicon.ico">
     <title>Samuel's page.</title>
     {% endif %}
-    <link href="./static/css/layout.css" rel="stylesheet">
-    <link href="./static/css/index.css" rel="stylesheet">
+    <!--<link href="./static/css/layout.css" rel="stylesheet">-->
+    <!--<link href="./static/css/index.css" rel="stylesheet">-->
+    <link href="http://bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        Samuel Masuy
-      </header>
-      <nav>
-        <ul>
-          <li><a href="{{ url_for('schedule_login') }}">Schedule App</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="body">
+    <div class="container">
+        <div class="navbar navbar-default">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Samuel Masuy</a>
+          </div>
+          <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('schedule_login') }}">Schedule App</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <div class="jumbotron">
         {% block content %}{% endblock %}
       </div>
-      <div class="push"></div>
+    {% block including %}{% endblock %}
     </div>
-    <footer>
-      <p>© Copyright 2014 Samuel Masuy.</p>
-      <p>
-      Content licensed under the Creative Commons License.
-      </p>
-      <p>
-      Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
-      <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
-      </p>
-    </footer>
+      <footer>
+        <div class="container">
+                <p>
+                Content licensed under the Creative Commons License.
+                </p>
+                <p>
+                Contact me via <a href="mailto:samuel.masuy@gmail.com">mail</a>,
+                <a href="https://github.com/samuelmasuy">github</a>, <a href="http://www.linkedin.com/pub/samuel-m/52/82b/aa">linkedin</a>.
+                </p>
+        </div>
+      </footer>
   </body>
 </html>

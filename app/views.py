@@ -8,7 +8,7 @@
 import os
 
 from flask import (render_template, session, url_for,
-                   request, redirect, flash, abort)
+                   request, redirect, flash, abort, jsonify)
 from forms import InputUrlForm
 
 from app import app
@@ -52,9 +52,8 @@ def oauth2callback():
 
 def flash_errors(form):
     for field, errors in form.errors.items():
-        for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label.text, error))
+        flash(u"Error in the %s field - %s" % (
+            getattr(form, field).label.text, errors))
 
 
 @app.errorhandler(404)
@@ -78,18 +77,24 @@ def schedule_index():
     form = InputUrlForm()
     events = []
     # When the form is validated, see forms.py for validation.
-    if form.validate_on_submit():
-        # Save what is in the field.
-        url = form.url.data
-        # Insert events.
-        cal, events = insert_event(url)
-        # Save events and calendar created in case the user wants to rollback.
-        session['events'] = events
-        session['cal'] = cal
-        return render_template('schedule_result.html', tilte="Schedule App")
-    else:
-        # When the form is not valid, render appropriate message.
-        flash_errors(form)
+    if request.method == 'POST':
+        print "posted"
+        if form.validate():
+            # Save what is in the field.
+            print "hello"
+            url_response = request.form.get('url')
+            # Insert events.
+            cal, events = insert_event(url_response)
+            # Save events and calendar created in case the user wants to rollback.
+            session['events'] = events
+            session['cal'] = cal
+            return render_template('schedule_result.html', tilte="Schedule App")
+        else:
+            print "error"
+            # When the form is not valid, render appropriate message.
+            response = jsonify(message=str(form.errors['url']))
+            response.status_code = 400
+            return response
     return render_template('schedule_index.html', tilte="Schedule App",
                            form=form)
 

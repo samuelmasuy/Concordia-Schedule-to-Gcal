@@ -5,10 +5,11 @@
 
     <p>In order to start this process, you will need to consent that this application writes into your Google calendar.<br>This part is done using Oauth2. OAuth allows you to share your calendar data, while keeping your usernames, passwords, and other information private.
     </p>
+    <p>
     {% if isAnonymous %}
-        <a class="next" href="{{ url_for('login') }}">Sign in with Google</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Sign in with Google</a>
     {% else %}
-        <a class="next" href="{{ url_for('logout') }}">Log out</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">Log out</a>
     {% endif %}
-
+    </p>
 {% endblock %}

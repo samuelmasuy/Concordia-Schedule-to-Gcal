@@ -50,8 +50,6 @@ def get_buildings_location():
     SGW = 'http://www.concordia.ca/maps/sgw-campus.html'
     LOY = 'http://www.concordia.ca/maps/loyola-campus.html'
     file_name = 'location.json'
-    heroku_file_name = ('../../../../heroku/homepage/app/'
-                        'scheduletogcal/location.json')
 
     if path.exists(file_name):
         two_months_ago = datetime.now() - timedelta(days=60)
@@ -66,6 +64,4 @@ def get_buildings_location():
         buildings_concordia.update(parse(LOY))
         with open(file_name, 'w') as fip:
             json.dump(buildings_concordia, fip)
-        with open(heroku_file_name, 'w') as hip:
-            json.dumps(buildings_concordia, hip)
     return buildings_concordia
