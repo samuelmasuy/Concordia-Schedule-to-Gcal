@@ -51,7 +51,6 @@ def get_buildings_location():
     LOY = 'http://www.concordia.ca/maps/loyola-campus.html'
     file_name = 'app/scheduletogcal/location.json'
 
-    print path.dirname(path.abspath(__file__))
     if path.exists(file_name):
         two_months_ago = datetime.now() - timedelta(days=60)
         filetime = datetime.fromtimestamp(path.getctime(file_name))
