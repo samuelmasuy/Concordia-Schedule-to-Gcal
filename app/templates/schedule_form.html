@@ -17,7 +17,6 @@
  <form role="form" action="/schedule_index" class="form-horizontal" method="post">
   {{form.hidden_tag()}}
   <fieldset>
-    <legend>Legend</legend>
     {{ render_field(form.username, placeholder='Username', type='text', pattern="[a-z]{1,4}_[a-z]{2,5}", autofocus="true") }}
     {{ render_field(form.password, placeholder='Password', type='password', pattern=".{2,25}") }}
     <small id="warning" class="text-danger" style="display: block;"></small>
