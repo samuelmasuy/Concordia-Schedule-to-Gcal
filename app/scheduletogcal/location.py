@@ -49,17 +49,28 @@ def get_buildings_location():
     buildings_concordia = None
     SGW = 'http://www.concordia.ca/maps/sgw-campus.html'
     LOY = 'http://www.concordia.ca/maps/loyola-campus.html'
-    file_name = 'app/scheduletogcal/location.json'
+    file_name = 'location.json'
+
+    import inspect
+    print inspect.getfile(inspect.currentframe())
+    print path.dirname(path.abspath(inspect.getfile(inspect.currentframe())))
 
     if path.exists(file_name):
         two_months_ago = datetime.now() - timedelta(days=60)
         filetime = datetime.fromtimestamp(path.getctime(file_name))
 
     if path.isfile(file_name) and filetime > two_months_ago:
+
+        print inspect.getfile(inspect.currentframe())
+        print path.dirname(path.abspath(inspect.getfile(inspect.currentframe())))
+
         with open(file_name, 'rb') as fip:
             buildings_concordia = json.load(fip)
     else:
-        print path.dirname(path.abspath(__file__))
+
+        print inspect.getfile(inspect.currentframe())
+        print path.dirname(path.abspath(inspect.getfile(inspect.currentframe())))
+
         # 'Add' one dictionary to the other.
         buildings_concordia = parse(SGW)
         buildings_concordia.update(parse(LOY))

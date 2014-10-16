@@ -10,5 +10,8 @@ __author__ = 'Samuel Masuy'
 __email__ = 'samuel.masuy@gmail.com'
 
 from app import app
+from flask_wtf.csrf import CsrfProtect
 
-app.run(debug=True)
+CsrfProtect(app)
+app.run()
+

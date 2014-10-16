@@ -1,13 +1,59 @@
-<form role="form" class="form-horizontal" method="post" onsubmit="return false;">
-        {{form.hidden_tag()}}
-        <label for="URL">Url of your schedule:</label>
-        {{ form.url(class="form-control", type="url") }}
-        <br>
-        <br>
+{% macro render_field(field) -%}
+     <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        <label for="{{ field.id }}" class="col-lg-2 control-label">{{ field.label }}</label>
+        <div class="col-lg-10">
+        {{ field(class_='form-control', **kwargs) }}
+        {% if field.errors %}
+            {% for e in field.errors %}
+            <small class="help-block" data-bv-for="{{field.id}}" data-bv-result="INVALID" style="display: block;">
+               {{e}}
+            </small>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+{%- endmacro %}
+ <!--onsubmit="return false;" -->
+ <form role="form" action="/schedule_index" class="form-horizontal" method="post">
+  {{form.hidden_tag()}}
+  <fieldset>
+    <legend>Legend</legend>
+    {{ render_field(form.username, placeholder='Username', type='text', pattern="[a-z]{1,4}_[a-z]{2,5}", autofocus="true") }}
+    {{ render_field(form.password, placeholder='Password', type='password', pattern=".{2,25}") }}
+    <small id="warning" class="text-danger" style="display: block;"></small>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Session</label>
+      <div class="col-lg-10">
+        <div class="radio">
+          <label>
+            <input type="radio" name="session" id="summerRadios1" value="1" checked="">
+            Summer
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="session" id="fallRadios2" value="2">
+            Fall
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="session" id="winterRadios3" value="4">
+            Winter
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
         <button type="submit" class="btn btn-primary">Create Events</button>
+      </div>
+    </div>
+  </fieldset>
 </form>
+
+{# {{ form.url(class="form-control", type="url") }} #}
 <br>
 <br>
-<p id="warning" class="text-warning"></p>
 <p id="spinner">Please wait while the data are being processed.</p>
 <br>
