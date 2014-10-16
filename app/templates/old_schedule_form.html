@@ -1,0 +1,13 @@
+<form role="form" class="form-horizontal" method="post" onsubmit="return false;">
+        {{form.hidden_tag()}}
+        <label for="URL">Url of your schedule:</label>
+        {{ form.url(class="form-control", type="url") }}
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Create Events</button>
+</form>
+<br>
+<br>
+<p id="warning" class="text-warning"></p>
+<p id="spinner">Please wait while the data are being processed.</p>
+<br>
