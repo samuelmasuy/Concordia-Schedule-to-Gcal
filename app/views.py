@@ -6,7 +6,7 @@
 #
 #  ===========================================================================
 import os
-
+import requests
 from flask import (render_template, session, url_for,
                    request, redirect, flash, abort, jsonify)
 from forms import InputUrlForm
@@ -68,22 +68,39 @@ def schedule_index():
         return redirect(url_for('schedule_login'))
 
     # Create form.
-    form = InputUrlForm()
+    form = InputUrlForm(request.form)
     events = []
     # When the form is validated, see forms.py for validation.
     if request.method == 'POST':
         if form.validate():
             # Save what is in the field.
-            url_response = form.url_response
+            username = request.form.get('username')
+            password = request.form.get('password')
+            semester = request.form.get('session')
+            print username, password, semester
+            url = "https://psis.concordia.ca/personalschedule/start.asp"
+            payload = {'userid': username,
+                    'pwd': password,
+                    'sess': semester,
+                    'SUBMIT2': 'Get+Your+Class+Schedule'}
+            with requests.Session() as s:
+                response = s.get(url, data=payload)
+                print response.url
+                if 'Invalid' in response.url:
+                    response = jsonify(message='The creditentials you entered are not valid! Please, try again.')
+                    response.status_code = 401
+                    return response
+                desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
+
             # Insert events.
-            cal, events = insert_event(url_response)
+            cal, events = insert_event(desired_url)
             # Save events and calendar created in case the user wants to rollback.
             session['events'] = events
             session['cal'] = cal
             return render_template('schedule_result.html', tilte="Schedule App")
         else:
-            # When the form is not valid, render appropriate message.
-            response = jsonify(message=str(form.errors['url']))
+            ## When the form is not valid, render appropriate message.
+            response = jsonify(message=form.errors)
             response.status_code = 400
             return response
     return render_template('schedule_index.html', tilte="Schedule App",
