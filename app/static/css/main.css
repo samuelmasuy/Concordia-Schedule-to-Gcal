@@ -7,5 +7,23 @@ aside {
     .jumbotron p {
         font-size: inherit;
     }
+    aside {
+        float:none;
+        position: relative;
+        left: -45px;
+        display: block;
+        width: 115%;
+        padding-left: 0em;
+        margin-top: 0.0em;
+        margin-bottom: 0.35em;
+        overflow: visible;
+    }
+    aside > img {
+        width: 115%;
+    }
+    aside > figcaption {
+        margin-left:45px;
+        font-size: 90%;
+    }
 }
 
