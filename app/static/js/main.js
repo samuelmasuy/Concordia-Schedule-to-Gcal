@@ -118,14 +118,13 @@ $(document).ready(function() {
                     bv.updateStatus('password', 'INVALID', 'invalidCredit');
                     $('#warning').html(error_messages);
                     $('#password').val("");
-                } /*,*/
-                //500: function(error) {
-                //var w = window.open('', 'debug_stuff', 'width=540,height=150');
-                //w.document.open();
-                //w.document.write(.responseText);
-                //w.document.close();
-                //console.log(error);
-                /*}*/
+                },
+                500: function(error) {
+                    var w = window.open('', 'debug_stuff', 'width=540,height=150');
+                    w.document.open();
+                    w.document.write(error.responseText);
+                    w.document.close();
+                }
             }
         });
     });

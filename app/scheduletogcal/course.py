@@ -32,7 +32,8 @@ class Course(object):
         self.room = None
         self.campus = None
         self.professor = None
-        self.term = None
+        self.description = None
+        self.semester = None
         self.colorid = 0
         self.location = None
 
@@ -40,9 +41,9 @@ class Course(object):
         """Formats the data as needed."""
         # Append dates formatted with days of the week a course is given,
         # first and last day of semester for a specific course.
-        self.datetime = format_dates(self.term,
+        self.datetime = format_dates(self.semester,
                                      self.datetime,
-                                     findall(r"[\dd']+", self.time))
+                                     self.time)
 
         # Get physical location of where the course is given.
         self.location = set_location(self.room, buildings)
@@ -52,9 +53,13 @@ class Course(object):
         self.section = self.section[:-1]
         # Get the name of the professor who is teaching a certain course.
         self.professor = self.professor[:-1]
+        # Join the professor and the section together to make up the
+        # description.
+        self.description = '{} with professor: {}'.format(
+            self.section, self.professor)
 
 
-def format_dates(semester, day_of_the_week, hours):
+def format_dates(semester, day_of_the_week, time_of_course):
     """Return a list of the dates formatted to iso format."""
     # Generator to associate each day of the week to its
     # relativedelta type correspondent.
@@ -71,6 +76,8 @@ def format_dates(semester, day_of_the_week, hours):
     relative_day_add = rdelta.relativedelta(
         weekday=days_of_week_gen[day_of_the_week.lower()])
     day = first_day_semester + relative_day_add
+
+    hours = findall(r"[\dd']+", time_of_course)
 
     start_t = time(int(hours[0]), int(hours[1]))
     end_t = time(int(hours[2]), int(hours[3]))

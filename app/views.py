@@ -8,7 +8,7 @@
 import os
 import requests
 from flask import (render_template, session, url_for,
-                   request, redirect, flash, abort, jsonify)
+                   request, redirect, abort, jsonify)
 from forms import InputUrlForm
 
 from app import app
@@ -77,12 +77,11 @@ def schedule_index():
             username = request.form.get('username')
             password = request.form.get('password')
             semester = request.form.get('session')
-            print username, password, semester
             url = "https://psis.concordia.ca/personalschedule/start.asp"
             payload = {'userid': username,
-                    'pwd': password,
-                    'sess': semester,
-                    'SUBMIT2': 'Get+Your+Class+Schedule'}
+                       'pwd': password,
+                       'sess': semester,
+                       'SUBMIT2': 'Get+Your+Class+Schedule'}
             with requests.Session() as s:
                 response = s.get(url, data=payload)
                 print response.url
@@ -90,10 +89,10 @@ def schedule_index():
                     response = jsonify(message='The creditentials you entered are not valid! Please, try again.')
                     response.status_code = 401
                     return response
-                desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
 
+            desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
             # Insert events.
-            cal, events = insert_event(desired_url)
+            cal, events = insert_event(desired_url, semester)
             # Save events and calendar created in case the user wants to rollback.
             session['events'] = events
             session['cal'] = cal
