@@ -62,17 +62,28 @@ def insert_calendar(service):
     return created_calendar['id']
 
 
-def insert_event(url):
+def map_semester(semester):
+    ''' map semesters '''
+    semester_names = ['summer', 'fall', 'winter']
+    return dict(zip(['1', '2', '4'], semester_names))[semester]
+
+
+def insert_event(url, semester):
     """ Insert events in the user calendar. """
     service = create_service()
     created_events_id = []
 
-    calendar_schedule = ScheduleScraper(url)
+    semester = map_semester(semester)
+    calendar_schedule = ScheduleScraper(url, semester)
     # Parse the schedule and get the events.
-    events, term = calendar_schedule.to_dict()
+    events = calendar_schedule.to_dict()
 
     # Check if a secondary calendar for the schedule exists.
     calendar_id = cal_lookup_id(service)
+
+    # Make sure to delete all events and hollidays during all summer months.
+    if semester == 'summer':
+        semester = 'summer_5B'
 
     if calendar_id is None:
         # Create a new secondary calendar.
@@ -80,14 +91,14 @@ def insert_event(url):
 
     else:
         # Delete all the events during the semester concerned.
-        del_old_events(service, calendar_id, term)
+        del_old_events(service, calendar_id, semester)
 
     # Create all the events and get their ids.
     created_events_id = [service.events().insert(calendarId=calendar_id,
                                                  body=event).execute()['id']
                          for event in events]
 
-    del_holliday(service, calendar_id, created_events_id, term)
+    del_holliday(service, calendar_id, created_events_id, semester)
 
     return calendar_id, created_events_id
 
