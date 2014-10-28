@@ -15,7 +15,7 @@ class InputUrlForm(Form):
     username = TextField(u'Concordia Username',
                          validators=[DataRequired(message='notEmpty'),
                          Length(min=4, max=9, message='stringLength'),
-                         Regexp("^[a-z_]+$", message='regexp')])
+                         Regexp("^[A-z]+_[A-z]+$", message='regexp')])
     password = PasswordField(u'Concordia Password',
                              validators=[DataRequired(message='notEmpty'),
                              Length(min=4, max=25, message='stringLength'),

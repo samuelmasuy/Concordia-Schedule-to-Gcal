@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('grab_url').show()
+    $('grab_url').show();
     $('#spinner').hide();
     $('#thank_you').hide();
     $('#result').hide();
@@ -24,10 +24,8 @@ $(document).ready(function() {
     var target = document.getElementById('spinner');
     var spinner = new Spinner(opts).spin(target);
     $('.form-horizontal').bootstrapValidator({
-        message: 'This value is not valid',
         fields: {
             username: {
-                message: 'The username is not valid',
                 validators: {
                     notEmpty: {
                         message: 'The username is required and cannot be empty'
@@ -38,7 +36,7 @@ $(document).ready(function() {
                         message: 'The username must be more than 4 and less than 9 characters long'
                     },
                     regexp: {
-                        regexp: /^[a-z_]+$/,
+                        regexp: /^[A-z]+_[A-z]+$/,
                         message: 'The username can only consist of alphabetical character and must contain an underscore'
                     },
                     invalidCredit: {
@@ -97,6 +95,19 @@ $(document).ready(function() {
                 $('#grab_url').hide();
                 $('#result').show();
                 $('#thank_you').show();
+                $('#save').click( function() {
+                    var file = 'Concordia Class Schedule.ics';
+                    var blob;
+                    if (navigator.userAgent.indexOf('MSIE 10') === -1) { // chrome or firefox
+                        blob = new Blob([results['ical']]);
+                    } else { // ie
+                        var bb = new BlobBuilder();
+                        bb.append(results['ical']);
+                        blob = bb.getBlob('text/x-vCalendar;charset=' + document.characterSet);
+                    }
+                    saveAs(blob, file);
+                });
+                $('#save').show();
             },
             statusCode: {
                 400: function(error) {
