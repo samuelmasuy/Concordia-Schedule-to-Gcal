@@ -23,7 +23,7 @@ from apiclient.discovery import build
 from flask import session, redirect, url_for
 
 from app import app
-from scraper import ScheduleScraper
+from scraper import ScheduleScraper, to_gcal, to_ical
 from academic_dates import get_academic_dates
 
 TIMEZONE = timezone("America/Montreal")
@@ -75,8 +75,11 @@ def insert_event(url, semester):
 
     semester = map_semester(semester)
     calendar_schedule = ScheduleScraper(url, semester)
+
     # Parse the schedule and get the events.
-    events = calendar_schedule.to_dict()
+    gcal = to_gcal(calendar_schedule.course_list)
+
+    ical = to_ical(calendar_schedule.course_list).to_ical()
 
     # Check if a secondary calendar for the schedule exists.
     calendar_id = cal_lookup_id(service)
@@ -96,11 +99,11 @@ def insert_event(url, semester):
     # Create all the events and get their ids.
     created_events_id = [service.events().insert(calendarId=calendar_id,
                                                  body=event).execute()['id']
-                         for event in events]
+                         for event in gcal]
 
     del_holliday(service, calendar_id, created_events_id, semester)
 
-    return calendar_id, created_events_id
+    return calendar_id, created_events_id, ical
 
 
 def del_holliday(service, cal_id, created_events_ids, term):

@@ -92,13 +92,13 @@ def schedule_index():
 
             desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
             # Insert events.
-            cal, events = insert_event(desired_url, semester)
+            cal, events, ical = insert_event(desired_url, semester)
             # Save events and calendar created in case the user wants to rollback.
             session['events'] = events
             session['cal'] = cal
-            return render_template('schedule_result.html', tilte="Schedule App")
+            return jsonify({'ical': ical})
         else:
-            ## When the form is not valid, render appropriate message.
+            # When the form is not valid, render appropriate message.
             response = jsonify(message=form.errors)
             response.status_code = 400
             return response
