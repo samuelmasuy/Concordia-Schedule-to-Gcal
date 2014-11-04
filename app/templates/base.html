@@ -6,11 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block metatag %}{% endblock %}
   {% if request.path.startswith('/schedule') %}
-  <title>Schedule App</title>
-  <link rel="shortcut icon" href="./static/img/sg.ico">
+    <title>Schedule App</title>
+	<link rel="shortcut icon" href="../static/img/favicon/cs-logo.ico">
+	<link rel="icon" sizes="16x16 32x32 64x64" href="../static/img/favicon/cs-logo.ico">
+	<link rel="icon" type="image/png" sizes="196x196" href="../static/img/favicon/cs-logo-196.png">
+	<link rel="icon" type="image/png" sizes="160x160" href="../static/img/favicon/cs-logo-160.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="../static/img/favicon/cs-logo-96.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="../static/img/favicon/cs-logo-64.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon/cs-logo-32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon/cs-logo-16.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="../static/img/favicon/cs-logo-152.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="../static/img/favicon/cs-logo-144.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="../static/img/favicon/cs-logo-120.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../static/img/favicon/cs-logo-114.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="../static/img/favicon/cs-logo-76.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../static/img/favicon/cs-logo-72.png">
+	<link rel="apple-touch-icon" href="../static/img/favicon/cs-logo-57.png">
+	<meta name="msapplication-TileColor" content="#FFFFFF">
+	<meta name="msapplication-TileImage" content="../static/img/favicon/cs-logo-144.png">
+	<meta name="msapplication-config" content="../static/img/favicon/browserconfig.xml">
   {% else %}
-  <link rel="shortcut icon" href="./static/img/favicon.ico">
-  <title>Samuel's page.</title>
+    <title>Samuel's page.</title>
+    <link rel="shortcut icon" href="../static/img/favicon.ico">
   {% endif %}
   <link rel="stylesheet" href="../static/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/bower_components/bootstrapvalidator/dist/css/bootstrapValidator.min.css"/>
