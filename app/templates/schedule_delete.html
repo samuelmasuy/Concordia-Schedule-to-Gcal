@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>All the events have been deleted!</h2>
-    {% if cal != 'primary' %}
-        <p><a href="{{ url_for('logout') }}">logout</a></p>
-    {% endif %}
+    <h2 id="title-response">All the events have been deleted!</h2>
+    <p><a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a></p>
 {% endblock %}

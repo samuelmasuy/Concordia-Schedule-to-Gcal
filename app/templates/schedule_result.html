@@ -1,10 +1,15 @@
 <div id="result">
-    <h2>All the events have been created!</h2>
-    <p>You now have the possibility to rollback what has just been done. I am not keeping any information about you or your transaction therefore, make sure to check your Google calendar.</p>
-    <p>If you are not satisfied click the rollback link. In case you change your mind later on, you will need to manually delete the events, or <a href="https://support.google.com/calendar/answer/37188?hl=en">the secondary calendar</a>.</p>
+    <h2 id="title-response">All the events have been created!</h2>
+    <p>I am not keeping any information about you or your transaction therefore, make sure to check your Google calendar.</p>
+    <p>If you are not satisfied click the rollback button.</p>
+    <p>You can also convert the schedule to apple calendar. The button below will generate a file, which you can import using the Calendar Application.</p>
 
-    <p><a href="https://www.google.com/calendar" target="_blank">Check your GCal!</a></p>
-    <p><a href="#" id="save">Convert to apple Cal</a></p>
-    <p><a href="{{ url_for('schedule_delete') }}">Do you want to rollback?</a></p>
-    <p><a href="{{ url_for('logout') }}">Or logout?</a></p>
+    <div class="row col-lg-12">
+        <p class="bs-component">
+            <a href="https://www.google.com/calendar" target="_blank" class="btn btn-success">Check your GCal!</a>
+            <a href="{{ url_for('schedule_delete') }}" class="btn btn-warning">Rollback</a>
+            <a href="#" id="save" class="btn btn-default">Convert to apple Cal</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+        </p>
+    </div>
 </div>

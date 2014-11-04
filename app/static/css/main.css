@@ -1,3 +1,7 @@
+#title-response {
+    border-bottom: 1.5px solid #e6e6e6;
+    padding-bottom: 1em;
+}
 aside {
     float: right;
     padding-left: 1em;
