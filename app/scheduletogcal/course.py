@@ -46,17 +46,17 @@ class Course(object):
                                      self.time)
 
         # Get physical location of where the course is given.
-        self.location = set_location(self.room, buildings)
+        building_full_name, self.location = set_location(self.room, buildings)
         # Make the title for an event; course + number + location.
         self.summary = ' '.join([self.summary, self.campus, self.room[:-1]])
         # Get type of course; Lecture, tutorial or labs.
         self.section = self.section[:-1]
         # Get the name of the professor who is teaching a certain course.
         self.professor = self.professor[:-1]
-        # Join the professor and the section together to make up the
-        # description.
-        self.description = '{} with professor: {}'.format(
-            self.section, self.professor)
+        # Join the professor, the section and the building name together
+        #  to make up the description.
+        self.description = '{} with professor: {} in {}'.format(
+            self.section, self.professor, building_full_name)
 
 
 def format_dates(semester, day_of_the_week, time_of_course):
@@ -93,6 +93,8 @@ def format_dates(semester, day_of_the_week, time_of_course):
 def set_location(room, buildings):
     """Set the location where a certain course is taking place."""
     if room == '--':
-        return "Concordia University, Montreal, QC"
+        return ("Concordia University", "Concordia University - Sir George Williams Campus, Montreal, QC H3G 1M8, Canada")
     else:
-        return buildings[room[:-1].split("-")[0]]
+        for building in buildings:
+            if building['buildingcode'] == room[:-1].split("-")[0]:
+                return (building['buildingname'], building['geocodeaddress'])

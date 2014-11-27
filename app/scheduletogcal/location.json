@@ -1,1 +1,302 @@
-{"DO": "7141 Sherbrooke W. Montreal, QC", "BB": "3502 Belmore Montreal, QC", "CJ": "7141 Sherbrooke W. Montreal, QC", "BH": "3500 Belmore Montreal, QC", "JR": "7141 Sherbrooke W. Montreal, QC", "FA": "2060 Mackay Montreal, QC", "FB": "1250 Guy Montreal, QC", "EN": "2070 Mackay Montreal, QC", "X": "2080 Mackay Montreal, QC", "FG": "1616 St. Catherine W. Montreal, QC", "HB": "7141 Sherbrooke W. Montreal, QC", "HC": "7141 Sherbrooke W. Montreal, QC", "HA": "7141 Sherbrooke W. Montreal, QC", "VL": "7141 Sherbrooke W. Montreal, QC", "VE": "7141 Sherbrooke W. Montreal, QC", "PR": "2100 Mackay Montreal, QC", "PS": "7141 Sherbrooke W. Montreal, QC", "Z": "2090 Mackay Montreal, QC", "LB": "1400 De Maisonneuve W. Montreal, QC", "RR": "2040 Mackay Montreal, QC", "PY": "7141 Sherbrooke W. Montreal, QC", "AD": "7141 Sherbrooke W. Montreal, QC", "PC": "7200 Sherbrooke St. W. Montreal, QC", "RF": "7141 Sherbrooke W. Montreal, QC", "SH": "7141 Sherbrooke W. Montreal, QC", "RA": "7200 Sherbrooke W. Montreal, QC", "H": "1455 De Maisonneuve W. Montreal, QC", "TD": "1410 Guy Montreal, QC", "TA": "7079 Terrebonne Montreal, QC", "VA": "1395 Ren\u00c3\u00a9 L\u00c3\u00a9vesque W. Montreal, QC", "CI": "2149 Mackay Montreal, QC", "B": "2160 Bishop Montreal, QC", "D": "2140 Bishop Montreal, QC", "CL": "1665 St. Catherine W. Montreal, QC", "CC": "7141 Sherbrooke W. Montreal, QC", "CB": "1425 Ren\u00c3\u00a9 L\u00c3\u00a9vesque W. Montreal, QC", "K": "2150 Bishop Montreal, QC", "M": "2135 Mackay Montreal, QC", "Q": "2010 Mackay Montreal, QC", "P": "2020 Mackay Montreal, QC", "S": "2145 Mackay Montreal, QC", "R": "2050 Mackay Montreal, QC", "T": "2030 Mackay Montreal, QC", "V": "2110 Mackay Montreal, QC", "GN": "1190 Guy Street Montreal, QC", "GM": "1550 De Maisonneuve W. Montreal, QC", "EV": "1515 St. Catherine W. Montreal, QC", "PT": "7141 Sherbrooke W. Montreal, QC", "MB": "1450 Guy Montreal, QC", "SP": "7141 Sherbrooke W. Montreal, QC", "MI": "2130 Bishop Montreal, QC", "GE": "7141 Sherbrooke W. Montreal, QC", "MU": "2170 Bishop Montreal, QC", "MT": "1195 Guy Montreal, QC", "SI": "4455 Broadway Montreal, QC", "FC": "7141 Sherbrooke W. Montreal, QC", "SC": "7141 Sherbrooke W. Montreal, QC", "SB": "1590 Docteur Penfield Montreal, QC", "OS": "1191 De la Montagne Montreal, QC", "null": "1190 Guy Street Montreal, QC"}
+[
+  {
+    "buildingcode": "BH",
+    "buildingname": "BH Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 3500 Avenue Belmore, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "HA",
+    "buildingname": "Hingston Wing A",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "PY",
+    "buildingname": "Psychology Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "",
+    "buildingname": "Pavillon Des Soeurs Grises",
+    "geocodeaddress": "1190 Rue Guy, Montréal, QC H3H 2L4, Canada"
+  },
+  {
+    "buildingcode": "FG",
+    "buildingname": "FG Building",
+    "geocodeaddress": "1616 Rue Sainte-Catherine Ouest, Montréal, QC H3H 1L7, Canada"
+  },
+  {
+    "buildingcode": "CJ",
+    "buildingname": "Communications & Journalism Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "PT",
+    "buildingname": "Oscar Peterson Concert Hall",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "T",
+    "buildingname": "T Building",
+    "geocodeaddress": "2030 MacKay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "PC",
+    "buildingname": "PERFORM Centre",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7200 Rue Sherbrooke Ouest, Montréal, QC H4B 1R2, Canada"
+  },
+  {
+    "buildingcode": "P",
+    "buildingname": "P Building",
+    "geocodeaddress": "2020 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "Z",
+    "buildingname": "Z Building",
+    "geocodeaddress": "2090 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "GM",
+    "buildingname": "Guy-Metro Building",
+    "geocodeaddress": "1550 Maisonneuve Boulevard West, Montreal, QC H3G, Canada"
+  },
+  {
+    "buildingcode": "MI",
+    "buildingname": "MI Building",
+    "geocodeaddress": "2130 Rue Bishop, Montréal, QC H3G 2E9, Canada"
+  },
+  {
+    "buildingcode": "CL",
+    "buildingname": "CL Building",
+    "geocodeaddress": "1665 Rue Sainte-Catherine Ouest, Montréal, QC H3H 1L9, Canada"
+  },
+  {
+    "buildingcode": "V",
+    "buildingname": "V Building",
+    "geocodeaddress": "2110 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "RF",
+    "buildingname": "Refectory",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "DO",
+    "buildingname": "Stinger Dome (seasonal)",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "OS",
+    "buildingname": "OS Building",
+    "geocodeaddress": "1191 Rue de la Montagne, Montréal, QC H3G 1Z2, Canada"
+  },
+  {
+    "buildingcode": "MU",
+    "buildingname": "MU Building",
+    "geocodeaddress": "2170 Rue Bishop, Montréal, QC H3G 2E9, Canada"
+  },
+  {
+    "buildingcode": "Q",
+    "buildingname": "Q Building",
+    "geocodeaddress": "2010 MacKay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "VL",
+    "buildingname": "Vanier Library",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "S",
+    "buildingname": "S Building",
+    "geocodeaddress": "2145 Rue Mackay, Montréal, QC H3G 2J2, Canada"
+  },
+  {
+    "buildingcode": "D",
+    "buildingname": "D Building",
+    "geocodeaddress": "2140 Rue Bishop, Montréal, QC H3G 2E9, Canada"
+  },
+  {
+    "buildingcode": "EN",
+    "buildingname": "EN Building",
+    "geocodeaddress": "2070 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "EV",
+    "buildingname": "Engineering and Visual Arts Complex",
+    "geocodeaddress": "1515 Rue Sainte-Catherine Ouest, Montréal, QC H3G 2W1, Canada"
+  },
+  {
+    "buildingcode": "R",
+    "buildingname": "R Building",
+    "geocodeaddress": "2050 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "BB",
+    "buildingname": "BB Building",
+    "geocodeaddress": "3502 Avenue Belmore, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "VA",
+    "buildingname": "Visual Arts Building",
+    "geocodeaddress": "1395 Boulevard René-Lévesque Ouest, Montréal, QC H3G 2M5, Canada"
+  },
+  {
+    "buildingcode": "HC",
+    "buildingname": "Hingston Wing C",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "FA",
+    "buildingname": "FA Building",
+    "geocodeaddress": "2060 MacKay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "TA",
+    "buildingname": "Terrebonne Building",
+    "geocodeaddress": "7079 Terrebonne, Montreal, QC H4B 1E1, Canada"
+  },
+  {
+    "buildingcode": "TD",
+    "buildingname": "Toronto Dominion Building",
+    "geocodeaddress": "1410 Guy, Montreal, QC H3H, Canada"
+  },
+  {
+    "buildingcode": "HB",
+    "buildingname": "Hingston Wing B",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "JR",
+    "buildingname": "Jesuit Residence",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "SC",
+    "buildingname": "Student Centre",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "SB",
+    "buildingname": "Samuel Bronfman Building",
+    "geocodeaddress": "1590 Docteur Penfield, Montreal, QC, Canada"
+  },
+  {
+    "buildingcode": "AD",
+    "buildingname": "Administration Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "B",
+    "buildingname": "B Building",
+    "geocodeaddress": "2160 Rue Bishop, Montréal, QC H3G 2E9, Canada"
+  },
+  {
+    "buildingcode": "SH",
+    "buildingname": "Solar House",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "SI",
+    "buildingname": "Saint-Ignatius of Loyola Church",
+    "geocodeaddress": "4455 Rue West Broadway, Montréal, QC H4B 2A7, Canada"
+  },
+  {
+    "buildingcode": "K",
+    "buildingname": "K Building",
+    "geocodeaddress": "2150 Rue Bishop, Montréal, QC H3G 2E9, Canada"
+  },
+  {
+    "buildingcode": "FB",
+    "buildingname": "Faubourg Tower",
+    "geocodeaddress": "Faubourg Tower, Montreal, QC H3H, Canada"
+  },
+  {
+    "buildingcode": "PS",
+    "buildingname": "Physical Services Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "MT",
+    "buildingname": "Montefiore Building",
+    "geocodeaddress": "1195 Rue Guy, Montréal, QC H3H 2K7, Canada"
+  },
+  {
+    "buildingcode": "CI",
+    "buildingname": "CI Building",
+    "geocodeaddress": "2149 Rue Mackay, Montréal, QC H3G 2J2, Canada"
+  },
+  {
+    "buildingcode": "GE",
+    "buildingname": "Research Centre for Structural and Functional Genomics",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "RR",
+    "buildingname": "RR Building",
+    "geocodeaddress": "2040 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "RA",
+    "buildingname": "Recreation and Athletics Complex",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7200 Rue Sherbrooke Ouest, Montréal, QC H4B 1R2, Canada"
+  },
+  {
+    "buildingcode": "M",
+    "buildingname": "M Building",
+    "geocodeaddress": "2135 Rue Mackay, Montréal, QC H3G 2J2, Canada"
+  },
+  {
+    "buildingcode": "CC",
+    "buildingname": "Central Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "VE",
+    "buildingname": "Vanier Extension",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "X",
+    "buildingname": "X Building",
+    "geocodeaddress": "2080 Mackay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "CB",
+    "buildingname": "CB Building (until Sept 2013)",
+    "geocodeaddress": "1425 Boulevard René-Lévesque Ouest, Montréal, QC H3G 1T7, Canada"
+  },
+  {
+    "buildingcode": "FC",
+    "buildingname": "F. C. Smith Building",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "H",
+    "buildingname": "Henry F. Hall Building",
+    "geocodeaddress": "1455 Maisonneuve Boulevard West, Montreal, QC H3G 1M8, Canada"
+  },
+  {
+    "buildingcode": "LB",
+    "buildingname": "McConnell Library Building",
+    "geocodeaddress": "1400 Maisonneuve Boulevard West, Montreal, QC H3G 1M8, Canada"
+  },
+  {
+    "buildingcode": "GN",
+    "buildingname": "Grey Nuns",
+    "geocodeaddress": "1190 Rue Guy, Montréal, QC H3H 2L4, Canada"
+  },
+  {
+    "buildingcode": "PR",
+    "buildingname": "PR Building",
+    "geocodeaddress": "2100 MacKay, Montreal, QC H3G 2J1, Canada"
+  },
+  {
+    "buildingcode": "SP",
+    "buildingname": "Richard J. Renaud Science Complex",
+    "geocodeaddress": "Concordia University - Loyola Campus, 7141 Rue Sherbrooke Ouest, Montréal, QC H4B 2B9, Canada"
+  },
+  {
+    "buildingcode": "MB",
+    "buildingname": "John Molson School of Business Building",
+    "geocodeaddress": "1450 Rue Guy, Montréal, QC H3H 1J5, Canada"
+  }
+]

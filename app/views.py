@@ -90,7 +90,9 @@ def schedule_index():
                     response.status_code = 401
                     return response
 
-            desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
+            # desired_url = response.url.replace('ClassSchedule2', 'ClassSchedule1')
+            desired_url = "http://0.0.0.0:8000/Dropbox/ClassSchedule2.asp.html"
+            print desired_url
             # Insert events.
             cal, events, ical = insert_event(desired_url, semester)
             # Save events and calendar created in case the user wants to rollback.
