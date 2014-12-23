@@ -16,11 +16,9 @@
 """
 from lxml import html
 import requests
-from pytz import timezone
 
 from icalendar import Calendar
 from icalendar import Event
-from dateutil import parser
 
 from course import Course
 from location import get_buildings_location
@@ -55,14 +53,15 @@ class ScheduleScraper(object):
             result = None
             for row in rows:
                 course = Course()
-                # Course name ex: Comp 249
-                course_name = parse_course_name(row[2].text, row[3].text)
+                # Course name ex: COMP + 352 / 1
+                course_name = '{} {}'.format(row[2].text, row[3].text)
                 # Group same course together.
-                result, seen_course = self.same_course(course_name, seen_course)
+                result, seen_course = self.same_course(
+                    course_name, seen_course)
                 course.colorid = result[0]
                 course.summary = result[1]
 
-                course.datetime = row[0].text
+                course.datetime_day = row[0].text
                 course.time = row[1].text
                 course.room = row[5].text
                 course.campus = row[6].text
@@ -70,7 +69,7 @@ class ScheduleScraper(object):
 
                 course.section = row[4].text
                 course.semester = self.semester
-                # Append the summer section.
+                # Append the summer section to the semester.
                 if is_summer:
                     course.semester += get_summer_section(
                         course.section.split(' ')[1][0])
@@ -94,66 +93,6 @@ class ScheduleScraper(object):
         return result, seen
 
 
-def to_gcal(course_list):
-    """This function takes all the data parsed and returns a dictionary
-    with all formated data needed to transmit to Google calendar."""
-    gcal = []
-    for courses in course_list:
-        for course in courses:
-            entry = dict()
-            entry["summary"] = course.summary
-            # Type of class, its section and the professor that gives it.
-            entry["description"] = course.description
-            entry["location"] = course.location
-            entry["colorId"] = course.colorid
-            # Date of the first course of the year and time when
-            # the class begins.
-            start_dic = dict()
-            entry["start"] = start_dic
-            start_dic["dateTime"] = course.datetime[1]
-            start_dic["timeZone"] = 'America/Montreal'
-            # Date of the first course of the year and time when
-            # the class ends.
-            end_dic = dict()
-            entry["end"] = end_dic
-            end_dic["dateTime"] = course.datetime[2]
-            end_dic["timeZone"] = 'America/Montreal'
-            # Repeat events weekly until the end of the academic year.
-            entry["recurrence"] = [
-                'RRULE:FREQ=WEEKLY;UNTIL={};BYDAY={}'.format(
-                    course.datetime[3], course.datetime[0])]
-            gcal.append(entry)
-    return gcal
-
-
-def to_ical(course_list):
-    """This function takes all the data parsed and returns an
-    icalendar."""
-    ical = Calendar()
-    current_tz = timezone("America/Montreal")
-    for courses in course_list:
-        for course in courses:
-            bydays = course.datetime[0].split(',')
-            for byday in bydays:
-                entry_ical = Event()
-                entry_ical.add('summary', course.summary)
-                entry_ical.add('description', course.description)
-                entry_ical.add('location', course.location)
-                dtstart = parser.parse(
-                    course.datetime[1]).replace(tzinfo=current_tz)
-                entry_ical.add('dtstart', dtstart)
-                dtend = parser.parse(
-                    course.datetime[2]).replace(tzinfo=current_tz)
-                entry_ical.add('dtend', dtend)
-                until = parser.parse(
-                    course.datetime[3]).replace(tzinfo=current_tz)
-                entry_ical.add('rrule', {'freq': 'weekly',
-                                         'until': until,
-                                         'byday': byday})
-                ical.add_component(entry_ical)
-    return ical
-
-
 def make_tree(url):
     """Create a lxml tree from a url """
     response = requests.get(url, verify=False).text
@@ -173,11 +112,6 @@ def clean_html(tree, is_summer):
         if len(p.text) > 15:
             p.getparent().remove(p.xpath('following-sibling::table[1]')[0])
     return tree
-
-
-def parse_course_name(name, number):
-    """ Comp 249 /2 => Comp 249 """
-    return ' '.join([name, number.split(' / ')[0]])
 
 
 def get_summer_section(section_initial):
@@ -203,10 +137,10 @@ def recurent_event_factor(seq):
                for x, z in values]
     result = []
     for course in newlist:
-        first_course = min(course, key=lambda arr: arr.datetime[1])
-        first_date = first_course.datetime[0]
+        first_course = min(course, key=lambda arr: arr.datetime_start)
+        first_date = first_course.datetime_day
         course.remove(first_course)
         for i in course:
-            first_course.datetime[0] = ','.join([first_date, i.datetime[0]])
+            first_course.datetime_day = ','.join([first_date, i.datetime_day])
         result.append(first_course)
     return result

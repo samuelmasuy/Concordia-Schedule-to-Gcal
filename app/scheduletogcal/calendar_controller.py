@@ -23,7 +23,8 @@ from apiclient.discovery import build
 from flask import session, redirect, url_for
 
 from app import app
-from scraper import ScheduleScraper, to_gcal, to_ical
+from scraper import ScheduleScraper
+from export_g_i import to_ical, to_gcal
 from academic_dates import get_academic_dates
 
 TIMEZONE = timezone("America/Montreal")
