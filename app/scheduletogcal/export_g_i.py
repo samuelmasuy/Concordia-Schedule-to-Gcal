@@ -1,6 +1,9 @@
 from pytz import timezone
 from dateutil import parser
 
+from icalendar import Calendar
+from icalendar import Event
+
 
 def to_gcal(course_list):
     """This function takes all the data parsed and returns a dictionary

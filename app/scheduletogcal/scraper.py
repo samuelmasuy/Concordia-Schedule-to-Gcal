@@ -17,9 +17,6 @@
 from lxml import html
 import requests
 
-from icalendar import Calendar
-from icalendar import Event
-
 from course import Course
 from location import get_buildings_location
 
