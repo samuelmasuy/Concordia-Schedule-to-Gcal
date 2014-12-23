@@ -161,8 +161,8 @@ def append_holidays(academic_dates, holidays):
     return academic_dates
 
 
-def act():
-    """ACT  TODO  """
+def assemble_all_holidays():
+    """Gather all the holidays in a dictionary."""
     academic_dates = {}
     holidays = get_general_holidays()
     spring_break_range = spring_break()
@@ -183,7 +183,8 @@ def act():
 
 def get_academic_dates(semester):
     """Returns 2 datetime.date instances representing the start
-    and ending days, of a specific academic semester
+    and ending days, of a specific academic semester.
+    Writes to a json file if file is older then 2 semesters.
     Also returns the hollidays occuring during that semester."""
     academic_dates = None
     file_name = 'academic_dates.json'
@@ -196,7 +197,7 @@ def get_academic_dates(semester):
         with open(file_name, 'rb') as fip:
             academic_dates = json.load(fip, object_hook=json_util.object_hook)
     else:
-        academic_dates = act()
+        academic_dates = assemble_all_holidays()
         with open(file_name, 'w') as fip:
             json.dump(academic_dates, fip, default=json_util.default)
 
