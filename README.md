@@ -32,7 +32,7 @@ If you'd like to contribute or extend this project:
 1. Clone your fork.
 1. Create a branch to contain your change.
 1. Hack!
-1. Make sure everything is running well <del>run [test.py](/test.py)</del> and closely follow [flake8][f8].
+1. Make sure everything is running well run tests using [py.test][pytest] and closely follow [flake8][f8].
 1. Document in a README your new functionalities.
 1. Push the branch on GitHub.
 1. Send a pull request to this project.
@@ -46,3 +46,4 @@ Please refer to [LICENSE](/LICENSE/).
 [ve]: http://www.virtualenv.org/en/latest/virtualenv.html#installation
 [fl]: http://flask.pocoo.org/docs/
 [f8]: https://pypi.python.org/pypi/flake8
+[pytest]: http://pytest.org/latest/
