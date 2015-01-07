@@ -7,29 +7,29 @@ from app.scheduletogcal import location
 from app.scheduletogcal import scraper
 
 
-# buildings = location.get_buildings_location()
+buildings = location.get_buildings_location()
 
 
-# def test_set_building_name_unknown():
-    # building_name, _ = course.set_location('AA', buildings)
-    # assert building_name == 'Concordia University'
+def test_set_building_name_unknown():
+    building_name, _ = course.set_location('AA', buildings)
+    assert building_name == 'Concordia University'
 
 
-# def test_set_building_name():
-    # building_name, _ = course.set_location('H', buildings)
-    # assert building_name == 'Henry F. Hall Building'
+def test_set_building_name():
+    building_name, _ = course.set_location('H', buildings)
+    assert building_name == 'Henry F. Hall Building'
 
 
-# def test_set_building_address_not_setted():
-    # _, geoaddress = course.set_location('--', buildings)
-    # assert geoaddress == ('Concordia University - Sir George Williams'
-                          # ' Campus, Montreal, QC H3G 1M8, Canada')
+def test_set_building_address_not_setted():
+    _, geoaddress = course.set_location('--', buildings)
+    assert geoaddress == ('Concordia University - Sir George Williams'
+                          ' Campus, Montreal, QC H3G 1M8, Canada')
 
 
-# def test_set_building_address():
-    # _, geoaddress = course.set_location('H', buildings)
-    # assert geoaddress == ('1455 Maisonneuve Boulevard West, Montreal,'
-                          # ' QC H3G 1M8, Canada')
+def test_set_building_address():
+    _, geoaddress = course.set_location('H', buildings)
+    assert geoaddress == ('1455 Maisonneuve Boulevard West, Montreal,'
+                          ' QC H3G 1M8, Canada')
 
 
 def test_format_course_name():
