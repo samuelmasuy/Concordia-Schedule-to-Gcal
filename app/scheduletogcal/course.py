@@ -52,12 +52,12 @@ class Course(object):
         self.datetime_day = str(self.datetime_day)
 
         # Get physical location of where the course is given.
-        self.room = self.room[:-1].split("-")[0]
+        self.room = self.room[:-1]
         building_full_name, self.location = set_location(self.room, buildings)
         # Make the title for an event; course + number + location.
         self.summary = ' '.join([format_course_name(self.summary),
-                                self.campus,
-                                self.room[:-1]])
+                                 self.campus,
+                                 self.room])
         # Get type of course; Lecture, tutorial or labs.
         self.section = self.section[:-1]
         # Get the name of the professor who is teaching a certain course.
@@ -118,6 +118,7 @@ def first_day_datetime(first_day_date, time_of_course):
 
 def set_location(room, buildings):
     """Set the location where a certain course is taking place."""
+    room = get_room_name(room)
     for building in buildings:
         if building['buildingcode'] == room:
             building_name = building['buildingname']
@@ -128,3 +129,8 @@ def set_location(room, buildings):
         address = ('Concordia University - Sir George Williams Campus,'
                    ' Montreal, QC H3G 1M8, Canada')
     return (building_name, address)
+
+
+def get_room_name(room):
+    """ Get room name. """
+    return room.split("-")[0]
