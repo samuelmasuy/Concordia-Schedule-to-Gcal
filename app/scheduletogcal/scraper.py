@@ -47,16 +47,18 @@ class ScheduleScraper(object):
 
             course_term = []
             seen_course = {}
-            result = None
+            # result = None
             for row in rows:
                 course = Course()
                 # Course name ex: COMP + 352 / 1
                 course_name = '{} {}'.format(row[2].text, row[3].text)
+
                 # Group same course together.
-                result, seen_course = self.same_course(
-                    course_name, seen_course)
-                course.colorid = result[0]
-                course.summary = result[1]
+                # result, seen_course = self.same_course(
+                #     course_name, seen_course)
+
+                ((course.colorid, course.summary),
+                    seen_course) = self.same_course(course_name, seen_course)
 
                 course.datetime_day = row[0].text
                 course.time = row[1].text
@@ -133,11 +135,12 @@ def recurent_event_factor(seq):
     newlist = [[y for y in seq if y.summary == x and y.section == z]
                for x, z in values]
     result = []
-    for course in newlist:
-        first_course = min(course, key=lambda arr: arr.datetime_start)
+    for courses in newlist:
+        first_course = min(courses, key=lambda arr: arr.datetime_start)
         first_date = first_course.datetime_day
-        course.remove(first_course)
-        for i in course:
-            first_course.datetime_day = ','.join([first_date, i.datetime_day])
+        courses.remove(first_course)
+        for course in courses:
+            first_course.datetime_day = ','.join([first_date,
+                                                  course.datetime_day])
         result.append(first_course)
     return result

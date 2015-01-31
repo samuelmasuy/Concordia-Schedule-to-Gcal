@@ -69,7 +69,7 @@ class Course(object):
 
 
 def format_course_name(course_name):
-    """ Comp 249 /2 => Comp 249 """
+    """ COMP 249 / 2 => COMP 249 """
     return course_name.split(' / ')[0]
 
 
