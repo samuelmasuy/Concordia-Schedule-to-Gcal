@@ -95,7 +95,7 @@ $(document).ready(function() {
                 $('#grab_url').hide();
                 $('#result').show();
                 $('#thank_you').show();
-                $('#save').click( function() {
+                $('#save').click(function() {
                     var file = 'Concordia Class Schedule.ics';
                     var blob;
                     if (navigator.userAgent.indexOf('MSIE 10') === -1) { // chrome or firefox
