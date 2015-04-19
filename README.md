@@ -1,5 +1,10 @@
 # Concordia schedule to Google cal.
 
+## Notice
+
+This application is deprecated since Concordia changed its student user
+interface to a close application. BOOOOH!!!
+
 ## Description
 
 This is a web application that converts your University (Concordia) schedule to recurring Google calendar events, it uses the micro-framework [Flask][fl].
