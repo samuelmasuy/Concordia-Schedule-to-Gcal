@@ -11,11 +11,16 @@
 
     Gestion of google calendar events and secondary calendars.
 
+    Note: this is a old version, it takes into account the hollidays.
+    But the amount of maintenance to maitain the parsing accurate is too
+    much so I decided to abandon.
+    Anyone is welcome to maintain it.
+
     :copyright: (c) 2014 by Samuel Masuy.
     :license: GNU version 2.0, see LICENSE for more details.
 """
 import httplib2
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from pytz import timezone
 
 from oauth2client.client import OAuth2WebServerFlow, OAuth2Credentials
@@ -102,7 +107,33 @@ def insert_event(url, semester):
                                                  body=event).execute()['id']
                          for event in gcal]
 
+    del_holliday(service, calendar_id, created_events_id, semester)
+
     return calendar_id, created_events_id, ical
+
+
+def del_holliday(service, cal_id, created_events_ids, term):
+    """Delete all the instances of the days when there is a holiday"""
+    _, holiday_list = get_academic_dates(term)
+
+    for holiday in holiday_list:
+        start_datetime = datetime.isoformat(
+            datetime.combine(holiday, time.min.replace(tzinfo=TIMEZONE)))
+        end_datetime = datetime.isoformat(
+            datetime.combine(holiday, time.max.replace(tzinfo=TIMEZONE)))
+
+        old_recur_events = []
+        for old_event_id in created_events_ids:
+            old_recur_events.append(
+                service.events().instances(calendarId=cal_id,
+                                           eventId=old_event_id,
+                                           timeMin=start_datetime,
+                                           timeMax=end_datetime).execute())
+
+    for summ in old_recur_events:
+        for ite in summ['items']:
+            service.events().delete(calendarId=cal_id,
+                                    eventId=ite['id']).execute()
 
 
 def cal_lookup_id(service):

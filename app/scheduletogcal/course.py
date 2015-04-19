@@ -88,7 +88,7 @@ def first_last_day_semester(semester, day_of_the_week):
     Returns a tuple with the fist day as a datetime.date objects and
     the last day as a string of the form YYYYmmdd."""
     # First day of the semester
-    semester_dates, _ = get_academic_dates(semester)
+    semester_dates = get_academic_dates(semester)
     first_day_semester, last_day_semester = semester_dates
     last_day_semester = last_day_semester + timedelta(days=1)
 
