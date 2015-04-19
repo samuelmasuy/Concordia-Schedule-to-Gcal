@@ -1,3 +1,18 @@
+# -*- coding: utf-8 -*-
+#  ===========================================================================
+#
+#  Copyright (C) 2014 Samuel Masuy. All rights reserved.
+#  samuel.masuy@gmail.com
+#
+#  ===========================================================================
+"""
+    Academic_dates.
+    ~~~~~~~~~~~~~~
+
+    Academic dates and holidays
+    :copyright: (c) 2014 by Samuel Masuy.
+    :license: GNU version 2.0, see LICENSE for more details.
+"""
 import re
 import json
 from datetime import datetime, timedelta
@@ -94,8 +109,7 @@ def school_start_end():
 def get_academic_dates(semester):
     """Returns 2 datetime.date instances representing the start
     and ending days, of a specific academic semester.
-    Writes to a json file if file is older then 2 semesters.
-    Also returns the hollidays occuring during that semester."""
+    Writes to a json file if file is older then 2 semesters."""
     academic_dates = None
     file_name = 'academic_dates.json'
 
